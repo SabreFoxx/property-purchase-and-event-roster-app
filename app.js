@@ -3,6 +3,13 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
+// init sequelize, then load models
+import db from './models/index.js';
+// synchronize sequelize
+db.sequelize.sync({ alter: true })
+    .then(res => console.log('db synced'))
+    .catch(err => console.log(err));
+
 import indexRouter from './routes/index.js';
 var app = express();
 
