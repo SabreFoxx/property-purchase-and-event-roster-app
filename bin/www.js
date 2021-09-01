@@ -4,9 +4,10 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('gve-ground-breaking-bck:server');
-var http = require('http');
+import app from '../app.js';
+import debugLib from 'debug';
+var debug = debugLib('gve-ground-breaking-bck:server');
+import http from 'http';
 
 /**
  * Get port from environment and store in Express.
