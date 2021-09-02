@@ -3,12 +3,20 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
-// init sequelize, then load models
+/* init sequelize and load models */
+const environment = process.env.NODE_ENV || 'development'; // defaults to development environment
 import db from './models/index.js';
-// synchronize sequelize
-db.sequelize.sync({ alter: true })
-    .then(res => console.log('db synced'))
+// synchronize sequelize with database
+(async () => {
+    // do not destructively alter the database during prodction
+    if (environment == 'production')
+        return await db.sequelize.sync() // doesn't alter the database
+    else
+        return await db.sequelize.sync({ alter: true })
+})()
+    .then(res => console.log('...sequelize loaded, database synced...'))
     .catch(err => console.log(err));
+/* end sequelize and database initialization */
 
 import indexRouter from './routes/index.js';
 var app = express();

@@ -11,7 +11,7 @@ let jsonData = fs.readFileSync(__dirname + '/../config/config.json'); // read js
 let config = JSON.parse(jsonData)[env]; // extract configuration from json file
 const db = {};
 
-console.log('Loading sequelize...');
+console.log('loading sequelize...');
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
