@@ -9,12 +9,15 @@ import db from './models/index.js';
 // synchronize sequelize with database
 (async () => {
     // do not destructively alter the database during prodction
-    if (environment == 'production')
-        return await db.sequelize.sync() // doesn't alter the database
-    else
-        return await db.sequelize.sync({ alter: true })
+    if (environment == 'production') {
+        console.log('...running in production mode...');
+        return await db.sequelize.sync(); // doesn't alter the database
+    } else {
+        console.log('...running in development mode...');
+        return await db.sequelize.sync({ alter: true });
+    }
 })()
-    .then(res => console.log('...sequelize loaded, database synced...'))
+    .then(res => console.log('...sequelize loaded, database synced.'))
     .catch(err => console.log(err));
 /* end sequelize and database initialization */
 
