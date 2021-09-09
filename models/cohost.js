@@ -19,7 +19,8 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    personaId: DataTypes.INTEGER
+    personaId: DataTypes.INTEGER,
+    seatId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Cohost'
