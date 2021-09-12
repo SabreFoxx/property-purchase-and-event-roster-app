@@ -1,8 +1,8 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+import * as sequelize from 'sequelize';
+
+const { Model } = sequelize.default || sequelize;
+
+export default (sequelize, DataTypes) => {
   class Seat extends Model {
     /**
      * Helper method for defining associations.
@@ -11,10 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Seat.belongsTo(models.Pin, {
+        foreignKey: 'pin'
+      })
     }
   };
   Seat.init({
-    personaId: DataTypes.INTEGER,
+    pin: DataTypes.INTEGER,
     taken: DataTypes.BOOLEAN
   }, {
     sequelize,

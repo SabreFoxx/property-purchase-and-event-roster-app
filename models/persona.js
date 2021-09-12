@@ -1,8 +1,8 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+import * as sequelize from 'sequelize';
+
+const { Model } = sequelize.default || sequelize;
+
+export default (sequelize, DataTypes) => {
   class Persona extends Model {
     /**
      * Helper method for defining associations.
@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Persona.hasOne(models.Pin);
+      Persona.hasOne(models.Cohost);
     }
   };
   Persona.init({

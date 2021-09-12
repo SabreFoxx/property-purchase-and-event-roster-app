@@ -1,5 +1,4 @@
 import * as sequelize from 'sequelize';
-import { Sequelize } from 'sequelize';
 
 const { Model } = sequelize.default || sequelize;
 
@@ -12,15 +11,14 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Cohost.belongsTo(models.Persona);
     }
   };
   Cohost.init({
     name: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    personaId: DataTypes.INTEGER,
-    seatId: DataTypes.INTEGER
+    }
   }, {
     sequelize,
     modelName: 'Cohost'
