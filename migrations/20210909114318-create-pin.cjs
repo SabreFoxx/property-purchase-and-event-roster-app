@@ -1,14 +1,11 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Pins', {
+    await queryInterface.createTable('Pin', {
       pin: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      cohostId: {
         type: Sequelize.INTEGER
       },
       seatId: {
@@ -28,6 +25,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Pins');
+    await queryInterface.dropTable('Pin');
   }
 };

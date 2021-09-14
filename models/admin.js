@@ -3,7 +3,7 @@ import * as sequelize from 'sequelize';
 const { Model } = sequelize.default || sequelize;
 
 export default (sequelize, DataTypes) => {
-  class Cohost extends Model {
+  class Admin extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
   Admin.init({
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    pwdHash: DataTypes.STRING
+    passwordSalt: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Admin',

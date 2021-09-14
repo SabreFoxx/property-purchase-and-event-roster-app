@@ -8,7 +8,7 @@ import models from '../models/index.js'
 passport.use(new passportLocal.Strategy({
     usernameField: 'email' // from req.body
 }, (username, password, done) => {
-    models.User.loginUsing(username, password)
+    models.Admin.loginUsing(username, password)
         .then(user => {
             if (!user)
                 // null means no internal error in the line below, even though login did not succeed

@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import passport from 'passport';
 
 /* init sequelize and load models */
 const environment = process.env.NODE_ENV || 'development'; // defaults to development environment
