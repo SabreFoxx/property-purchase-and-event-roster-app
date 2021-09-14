@@ -8,6 +8,7 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
+    // Pin.belongsTo(models.Persona);
     await queryInterface.addColumn(
       'Pin',
       'personaId',
@@ -21,6 +22,23 @@ module.exports = {
         onDelete: 'SET NULL'
       }
     )
+      // Pin.belongsTo(models.Cohost);
+      .then(() => {
+        return queryInterface.addColumn(
+          'Pin',
+          'cohostId',
+          {
+            type: Sequelize.INTEGER,
+            allowNull: true,
+            references: {
+              model: 'Cohost',
+              key: 'id'
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL'
+          }
+        )
+      })
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -30,9 +48,9 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeColumn(
-      'Pin',
-      'personaId'
-    )
+    await queryInterface.removeColumn('Pin', 'personaId')
+      .then(() => {
+        return queryInterface.removeColumn('Pin', 'cohostId');
+      })
   }
 };
