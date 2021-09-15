@@ -7,8 +7,8 @@ const addCohost = async (req, res) => {
 
     try {
         const user = await models.Persona.create({
-            firstName: 'Bart',
-            lastName: 'Simpson'
+            name: req.body.name,
+            class: 'Cohost'
         }, { transaction: t });
 
         await user.addSibling({

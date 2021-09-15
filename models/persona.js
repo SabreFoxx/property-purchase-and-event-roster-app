@@ -17,20 +17,12 @@ export default (sequelize, DataTypes) => {
   };
   Persona.init({
     name: DataTypes.STRING,
-    title: {
-      type: DataTypes.ENUM,
-      values: ['Mr.', 'Mrs.', 'Master', 'Miss', 'Chief', 'Lady', 'Dr.', 'Barr.', 'Engr.', 'Arc.']
-    },
     phone: DataTypes.STRING,
     email: DataTypes.STRING,
-    address: DataTypes.STRING,
     class: {
       type: DataTypes.ENUM,
-      values: ['Cohost', 'Invitee']
-    },
-    type: {
-      type: DataTypes.ENUM,
-      values: ['Person', 'Company']
+      values: ['Cohost', 'Invitee'],
+      defaultValue: 'Invitee'
     }
   }, {
     sequelize,

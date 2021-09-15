@@ -11,6 +11,7 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Cohost.hasMany(models.Pin);
       Cohost.belongsTo(models.Persona);
     }
   };

@@ -39,8 +39,8 @@ export default (sequelize, DataTypes) => {
      * creates a password hash, from the plain string
      * @param {string} plainPassword plain password string
      */
-    setPassword(plainPassword) {
-      this.setDataValue('passwordSalt', crypto.randomBytes(16).toString('hex'));
+     setPassword(plainPassword) {
+      this.passwordSalt = crypto.randomBytes(16).toString('hex');
       this.setDataValue('password', crypto
         .pbkdf2Sync(plainPassword, this.passwordSalt, 1000, 64, 'sha512')
         .toString('hex'));
@@ -54,7 +54,7 @@ export default (sequelize, DataTypes) => {
       const passwordHash = crypto
         .pbkdf2Sync(plainPassword, this.getDataValue('passwordSalt'), 1000, 64, 'sha512')
         .toString('hex');
-      return this.getDataValue('password') === passwordHash;
+      return this.password === passwordHash;
     }
 
     /**
@@ -71,6 +71,15 @@ export default (sequelize, DataTypes) => {
   };
 
   Admin.init({
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    name: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `${this.firstName} ${this.lastName}`;
+      },
+      set(name) { }
+    },
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     passwordSalt: DataTypes.STRING

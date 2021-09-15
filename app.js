@@ -6,16 +6,16 @@ import passport from 'passport';
 
 /* init sequelize and load models */
 const environment = process.env.NODE_ENV || 'development'; // defaults to development environment
-import db from './models/index.js';
+import { sequelize } from './models/index.js';
 // synchronize sequelize with database
 (async () => {
     // do not destructively alter the database during prodction
     if (environment == 'production') {
         console.log('...running in production mode...');
-        return await db.sequelize.sync(); // doesn't alter the database
+        return await sequelize.sync(); // doesn't alter the database
     } else {
         console.log('...running in development mode...');
-        return await db.sequelize.sync({ alter: true });
+        return await sequelize.sync({ alter: true });
     }
 })()
     .then(res => console.log('...sequelize loaded, database synced.'))
