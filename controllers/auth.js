@@ -1,6 +1,6 @@
-import Sequelize from 'sequelize'
-import models from '../models/index.js'
-import passport from 'passport'
+import Sequelize from 'sequelize';
+import models from '../models/index.js';
+import passport from 'passport';
 
 const register = async (req, res) => {
     if (!req.body.email || !req.body.password)

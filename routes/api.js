@@ -15,8 +15,12 @@ const auth = expressJwt({
 });
 
 import { register, login } from '../controllers/auth.js';
+import { addCohost } from '../controllers/user.js';
 
 router.post('/register', register);
 router.post('/login', login);
+
+router.route('/cohost')
+    .post(auth, addCohost);
 
 export default router;

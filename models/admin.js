@@ -1,10 +1,10 @@
 import env from 'dotenv';
-import * as sequelize from 'sequelize';
+import * as sequelizeExport from 'sequelize';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 env.config();
 
-const { Model } = sequelize.default || sequelize;
+const { Model } = sequelizeExport.default || sequelizeExport;
 
 export default (sequelize, DataTypes) => {
   class Admin extends Model {

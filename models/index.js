@@ -41,7 +41,4 @@ modelFiles.forEach(async file => {
     });
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-export default db;
+export { db as default, sequelize };

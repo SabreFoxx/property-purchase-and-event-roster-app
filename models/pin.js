@@ -1,6 +1,6 @@
-import * as sequelize from 'sequelize';
+import * as sequelizeExport from 'sequelize';
 
-const { Model } = sequelize.default || sequelize;
+const { Model } = sequelizeExport.default || sequelizeExport;
 
 export default (sequelize, DataTypes) => {
   class Pin extends Model {
