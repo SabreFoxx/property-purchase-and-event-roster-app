@@ -1,4 +1,7 @@
 import * as sequelizeExport from 'sequelize';
+import env from 'dotenv';
+import jwt from 'jsonwebtoken';
+env.config();
 
 const { Model } = sequelizeExport.default || sequelizeExport;
 
@@ -14,7 +17,20 @@ export default (sequelize, DataTypes) => {
       Persona.hasOne(models.Pin);
       Persona.hasOne(models.Cohost);
     }
+
+    /**
+     * generates a signed jwt token for this user account object
+     */
+    generateJwt() {
+      const expiry = new Date;
+      expiry.setDate(expiry.getDate() + 7);
+      return jwt.sign({
+        pin: pin,
+        exp: parseInt(expiry.getTime() / 1000, 10)
+      }, process.env.JWT_SECRET);
+    }
   };
+
   Persona.init({
     name: DataTypes.STRING,
     phone: DataTypes.STRING,

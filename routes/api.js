@@ -15,19 +15,19 @@ const auth = expressJwt({
 });
 
 import { register, login } from '../controllers/auth.js';
-import { addCohost } from '../controllers/user.js';
+import { addCohost, submitPin, updateDetails, submitDetails } from '../controllers/user.js';
 
 router.post('/register', register);
 router.post('/login', login);
 
+router.route('/cohost')
+.post(auth, addCohost);
+
 router.route('/pin')
     .post(submitPin);
 
-router.route('/cohost')
-    .post(auth, addCohost);
-
-// router.route('/user')
-//     .put(auth, sendDetails)
-//     .post(sendNewDetails);
+router.route('/user')
+    .put(auth, updateDetails)
+    .post(submitDetails);
 
 export default router;
