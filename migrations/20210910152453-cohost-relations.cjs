@@ -10,7 +10,7 @@ module.exports = {
      */
     await queryInterface.addColumn(
       'Cohost',
-      'personaId',
+      'PersonaId',
       {
         type: Sequelize.INTEGER,
         references: {
@@ -18,7 +18,8 @@ module.exports = {
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'NO ACTION'
+        onDelete: 'NO ACTION',
+        allowNull: false
       }
     )
   },
@@ -32,7 +33,7 @@ module.exports = {
      */
     await queryInterface.removeColumn(
       'Cohost',
-      'personaId'
+      'PersonaId'
     )
   }
 };

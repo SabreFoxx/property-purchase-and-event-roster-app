@@ -64,4 +64,8 @@ const login = (req, res) => {
     // this proves this is a function call
 }
 
-export { register, login }
+const submitPin = (req, res) => {
+
+}
+
+export { register, login, submitPin }

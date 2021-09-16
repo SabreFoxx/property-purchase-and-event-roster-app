@@ -11,7 +11,7 @@ module.exports = {
     // Pin.belongsTo(models.Persona);
     await queryInterface.addColumn(
       'Pin',
-      'personaId',
+      'PersonaId',
       {
         type: Sequelize.INTEGER,
         references: {
@@ -19,14 +19,15 @@ module.exports = {
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        onDelete: 'SET NULL',
+        allowNull: true
       }
     )
       // Pin.belongsTo(models.Cohost);
       .then(() => {
         return queryInterface.addColumn(
           'Pin',
-          'cohostId',
+          'CohostId',
           {
             type: Sequelize.INTEGER,
             allowNull: true,
@@ -35,7 +36,8 @@ module.exports = {
               key: 'id'
             },
             onUpdate: 'CASCADE',
-            onDelete: 'SET NULL'
+            onDelete: 'SET NULL',
+            allowNull: false
           }
         )
       })
@@ -48,9 +50,9 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeColumn('Pin', 'personaId')
+    await queryInterface.removeColumn('Pin', 'PersonaId')
       .then(() => {
-        return queryInterface.removeColumn('Pin', 'cohostId');
+        return queryInterface.removeColumn('Pin', 'CohostId');
       })
   }
 };

@@ -20,7 +20,14 @@ import { addCohost } from '../controllers/user.js';
 router.post('/register', register);
 router.post('/login', login);
 
+router.route('/pin')
+    .post(submitPin);
+
 router.route('/cohost')
     .post(auth, addCohost);
+
+// router.route('/user')
+//     .put(auth, sendDetails)
+//     .post(sendNewDetails);
 
 export default router;
