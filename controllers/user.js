@@ -2,6 +2,7 @@ import models, { sequelize } from '../models/index.js';
 import sha1 from 'js-sha1';
 
 const addCohost = async (req, res) => {
+    // generates n pin initializers to be used in a Model.create() method
     let pins_ = {
         [Symbol.iterator]() {
             let numberOfPins = req.body.numberOfPins;
@@ -48,7 +49,33 @@ const addCohost = async (req, res) => {
 }
 
 const inviteGuest = (req, res) => {
-
+    models.Pin.findOne({
+        where: {
+            CohostId: req.body.cohostId,
+            PersonaId: null
+        },
+    }).then(pin => {
+        pin.createPersona({
+            name: req.body.guestName
+        }).then(guest => {
+            res.status(200)
+                .json({
+                    data: { pin, guest },
+                    message: 'Guest added successfully'
+                })
+        }).catch(error => {
+            console.log(error);
+            res.status(400)
+                .json({
+                    message: 'Error adding guest'
+                });
+        })
+    }).catch(error => {
+        res.status(400)
+            .json({
+                message: 'Cohost can no longer add any guest'
+            });
+    })
 }
 
 const submitPin = (req, res) => {
@@ -63,8 +90,7 @@ const submitPin = (req, res) => {
                     token: pin.persona.generateJwt(pin.pin),
                     message: 'Pin correct'
                 })
-        })
-        .catch(error => {
+        }).catch(error => {
             console.log(error);
             res.status(400)
                 .json({
@@ -79,8 +105,7 @@ const updateDetails = (req, res) => {
             pin.persona.email = req.body.email;
             pin.persona.phone = req.body.phone;
             return pin.persona.save();
-        })
-        .then(() => {
+        }).then(() => {
             res.status(200)
                 .json({
                     data: {
@@ -89,8 +114,7 @@ const updateDetails = (req, res) => {
                     },
                     message: 'Details updated successfully'
                 })
-        })
-        .catch(error => {
+        }).catch(error => {
             console.log(error);
             res.status(400)
                 .json({
@@ -106,31 +130,29 @@ const submitDetails = (req, res) => {
         name: req.body.name,
         email: req.body.email,
         phone: req.body.phone
-    })
-        .then(async () => {
-            // This general cohost invites all open guests
-            const generalCohost = await models.Cohost.findByPk(1);
-            const pin = await generalCohost.createPin({
-                PersonaId: user.getId()
+    }).then(async () => {
+        // This general cohost invites all open guests
+        const generalCohost = await models.Cohost.findByPk(1);
+        const pin = await generalCohost.createPin({
+            PersonaId: user.getId()
+        });
+        res.status(200)
+            .json({
+                data: {
+                    user,
+                    pin: pin.pin,
+                    otp: sha1(1234),
+                    token: user.generateJwt(pin.pin)
+                },
+                message: 'Account created successfully'
+            })
+    }).catch(error => {
+        console.log(error);
+        res.status(400)
+            .json({
+                message: 'Account creation unsuccessful'
             });
-            res.status(200)
-                .json({
-                    data: {
-                        user,
-                        pin: pin.pin,
-                        otp: sha1(1234),
-                        token: user.generateJwt(pin.pin)
-                    },
-                    message: 'Account created successfully'
-                })
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(400)
-                .json({
-                    message: 'Account creation unsuccessful'
-                });
-        })
+    })
 }
 
-export { addCohost, submitPin, updateDetails, submitDetails }
+export { addCohost, inviteGuest, submitPin, updateDetails, submitDetails }
