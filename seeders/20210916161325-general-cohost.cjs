@@ -21,15 +21,7 @@ module.exports = {
         PersonaId: 1,
         createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
         updatedAt: Sequelize.literal('CURRENT_TIMESTAMP')
-      }], {}).then(() => {
-        return queryInterface.bulkInsert('Pin', [{
-          pin: 1111,
-          CohostId: 1,
-          valid: true,
-          createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-          updatedAt: Sequelize.literal('CURRENT_TIMESTAMP')
-        }], {})
-      })
+      }], {})
     })
   },
 

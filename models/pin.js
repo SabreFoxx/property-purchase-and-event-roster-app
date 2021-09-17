@@ -32,6 +32,8 @@ export default (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Pin',
+    // set initial auto increment value for MySQL, doesn't work for Postgres
+    initialAutoIncrement: 1111
   });
   return Pin;
 };
