@@ -48,7 +48,8 @@ export default (sequelize, DataTypes) => {
                 If > 1, that number is used as the OTP and the user needs to verify
                 OTP for that number to turn to 0.
       `
-    }
+    },
+    deviceId: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Persona',

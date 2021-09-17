@@ -102,7 +102,8 @@ const updateDetails = (req, res) => {
         .then(async pin => {
             const user = await pin.getPersona();
             user.email = req.body.email;
-            user.phone = req.body.phone;
+            user.phone = req.body.phoneNumber;
+            user.deviceId = req.body.deviceId;
             user.inactive = Math.floor(1000 + Math.random() * 9000);
             return user.save();
         }).then(user => {
@@ -131,7 +132,8 @@ const submitDetails = (req, res) => {
     models.Persona.create({
         name: req.body.name,
         email: req.body.email,
-        phone: req.body.phone,
+        phone: req.body.phoneNumber,
+        deviceId: req.body.deviceId,
         inactive: Math.floor(1000 + Math.random() * 9000)
     }).then(async user => {
         // This general cohost of id 1, added with a seeder,
