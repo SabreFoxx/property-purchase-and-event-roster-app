@@ -125,17 +125,16 @@ const updateDetails = (req, res) => {
 }
 
 const submitDetails = (req, res) => {
-    // TODO there will be a general cohost that invites all
-    // this cohost will be created first using seed, and its pin will start from 11111
-    const user = models.Persona.create({
+    models.Persona.create({
         name: req.body.name,
         email: req.body.email,
         phone: req.body.phone
-    }).then(async () => {
-        // This general cohost invites all open guests
+    }).then(async user => {
+        // This general cohost of id 1, added with a seeder,
+        // handles all open guests and invites
         const generalCohost = await models.Cohost.findByPk(1);
         const pin = await generalCohost.createPin({
-            PersonaId: user.getId()
+            PersonaId: user.id
         });
         res.status(200)
             .json({
@@ -143,16 +142,19 @@ const submitDetails = (req, res) => {
                     user,
                     pin: pin.pin,
                     otp: sha1(1234),
-                    token: user.generateJwt(pin.pin)
                 },
-                message: 'Account created successfully'
+                token: user.generateJwt(pin.pin),
+                message: 'Account created successfully',
+                metadata: {
+                    fakeOTP: 1234,
+                    description1: 'data.otp is a sha1 hash of OTP',
+                    description2: 'The sha1 hash of user\'s OTP input must match data.otp',
+                }
             })
     }).catch(error => {
         console.log(error);
         res.status(400)
-            .json({
-                message: 'Account creation unsuccessful'
-            });
+            .json({ message: 'Account creation failed' });
     })
 }
 
