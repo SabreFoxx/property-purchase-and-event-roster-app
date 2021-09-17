@@ -37,8 +37,17 @@ export default (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     class: {
       type: DataTypes.ENUM,
-      values: ['Cohost', 'Invitee'],
-      defaultValue: 'Invitee'
+      values: ['cohost', 'invitee'],
+      defaultValue: 'invitee'
+    },
+    inactive: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+      comment: `If 0, the user is a verified user who has passed OTP verification.
+                If 1, the user is a new user who hasn't updated his details.
+                If > 1, that number is used as the OTP and the user needs to verify
+                OTP for that number to turn to 0.
+      `
     }
   }, {
     sequelize,

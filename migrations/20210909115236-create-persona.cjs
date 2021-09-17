@@ -15,12 +15,17 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       class: {
         type: Sequelize.ENUM,
-        values: ['Cohost', 'Invitee'],
-        defaultValue: 'Invitee'
+        values: ['cohost', 'invitee'],
+        defaultValue: 'invitee'
+      },
+      inactive: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1
       },
       createdAt: {
         allowNull: false,

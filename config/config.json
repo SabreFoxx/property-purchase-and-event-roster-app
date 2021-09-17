@@ -9,6 +9,14 @@
       "freezeTableName": true,
       "charset": "utf8",
       "collate": "utf8_general_ci"
+    },
+    "defaultScope": {
+      "attributes": {
+        "exclude": [
+          "createdAt",
+          "updatedAd"
+        ]
+      }
     }
   },
   "test": {

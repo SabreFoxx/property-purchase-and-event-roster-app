@@ -20,7 +20,8 @@ import {
     inviteGuest,
     submitPin,
     updateDetails,
-    submitDetails
+    submitDetails,
+    verifyOTP
 } from '../controllers/user.js';
 
 router.post('/register', register);
@@ -34,6 +35,9 @@ router.route('/guest')
 
 router.route('/pin')
     .post(submitPin);
+
+router.route('/verify-otp')
+    .post(auth, verifyOTP);
 
 router.route('/user')
     .put(auth, updateDetails)

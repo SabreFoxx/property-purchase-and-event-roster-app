@@ -20,7 +20,7 @@ const addCohost = async (req, res) => {
     try {
         const user = await models.Persona.create({
             name: req.body.name,
-            class: 'Cohost'
+            class: 'cohost'
         }, { transaction: t });
 
         const cohost = await user.createCohost({
@@ -103,14 +103,17 @@ const updateDetails = (req, res) => {
             const user = await pin.getPersona();
             user.email = req.body.email;
             user.phone = req.body.phone;
+            user.inactive = Math.floor(1000 + Math.random() * 9000);
             return user.save();
         }).then(user => {
+            const otp = user.inactive;
+            user.inactive = undefined; // remove from object
             res.status(200)
                 .json({
-                    data: { otp: sha1(1234), user },
+                    data: { otp: sha1(otp), user },
                     message: 'Details updated successfully',
                     metadata: {
-                        fakeOTP: 1234,
+                        testOTP: otp,
                         description1: 'data.otp is a sha1 hash of OTP',
                         description2: 'The sha1 hash of user\'s OTP input must match data.otp',
                     }
@@ -128,7 +131,8 @@ const submitDetails = (req, res) => {
     models.Persona.create({
         name: req.body.name,
         email: req.body.email,
-        phone: req.body.phone
+        phone: req.body.phone,
+        inactive: Math.floor(1000 + Math.random() * 9000)
     }).then(async user => {
         // This general cohost of id 1, added with a seeder,
         // handles all open guests and invites
@@ -136,17 +140,19 @@ const submitDetails = (req, res) => {
         const pin = await generalCohost.createPin({
             PersonaId: user.id
         });
+        const otp = user.inactive;
+        user.inactive = undefined; // remove from object
         res.status(200)
             .json({
                 data: {
+                    otp: sha1(otp),
                     user,
                     pin: pin.pin,
-                    otp: sha1(1234),
                 },
                 token: user.generateJwt(pin.pin),
                 message: 'Account created successfully',
                 metadata: {
-                    fakeOTP: 1234,
+                    testOTP: otp,
                     description1: 'data.otp is a sha1 hash of OTP',
                     description2: 'The sha1 hash of user\'s OTP input must match data.otp',
                 }
@@ -158,4 +164,26 @@ const submitDetails = (req, res) => {
     })
 }
 
-export { addCohost, inviteGuest, submitPin, updateDetails, submitDetails }
+const verifyOTP = (req, res) => {
+    models.Persona.findOne({
+        where: {
+            email: req.body.email,
+            inactive: req.body.otp
+        }
+    }).then(user => {
+        user.inactive = 0;
+        user.save()
+            .then(user => {
+                res.status(200)
+                    .json({
+                        data: { user },
+                        message: 'OTP validated successfully'
+                    })
+            }).catch(() => { });
+    }).catch(() => {
+        res.status(400)
+            .json({ message: 'OTP validation failed' })
+    });
+}
+
+export { addCohost, inviteGuest, submitPin, updateDetails, submitDetails, verifyOTP }
