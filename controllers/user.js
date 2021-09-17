@@ -9,7 +9,7 @@ const addCohost = async (req, res) => {
             return {
                 next() {
                     const done = numberOfPins-- < 1;
-                    const value = {};
+                    const value = {}; // the initializer
                     return { value, done }
                 }
             }
@@ -17,7 +17,6 @@ const addCohost = async (req, res) => {
     }
 
     const t = await sequelize.transaction();
-
     try {
         const user = await models.Persona.create({
             name: req.body.name,
@@ -71,6 +70,7 @@ const inviteGuest = (req, res) => {
                 });
         })
     }).catch(error => {
+        // don't log, it's not an error
         res.status(400)
             .json({
                 message: 'Cohost can no longer add any guest'
@@ -79,15 +79,13 @@ const inviteGuest = (req, res) => {
 }
 
 const submitPin = (req, res) => {
-    const pin = models.Pin.findByPk(req.body.pin, { include: models.Persona })
-        .then(() => {
+    models.Pin.findByPk(req.body.pin)
+        .then(async pin => {
+            const user = await pin.getPersona();
             res.status(200)
                 .json({
-                    data: {
-                        name: pin.persona.name,
-                        user: pin.persona
-                    },
-                    token: pin.persona.generateJwt(pin.pin),
+                    data: { name: user.name, user },
+                    token: user.generateJwt(pin.pin),
                     message: 'Pin correct'
                 })
         }).catch(error => {
@@ -100,19 +98,22 @@ const submitPin = (req, res) => {
 }
 
 const updateDetails = (req, res) => {
-    const pin = models.Pin.findByPk(req.body.pin, { include: models.Persona })
-        .then(() => {
-            pin.persona.email = req.body.email;
-            pin.persona.phone = req.body.phone;
-            return pin.persona.save();
-        }).then(() => {
+    models.Pin.findByPk(req.payload.pin)
+        .then(async pin => {
+            const user = await pin.getPersona();
+            user.email = req.body.email;
+            user.phone = req.body.phone;
+            return user.save();
+        }).then(user => {
             res.status(200)
                 .json({
-                    data: {
-                        otp: sha1(1234),
-                        user: pin.persona
-                    },
-                    message: 'Details updated successfully'
+                    data: { otp: sha1(1234), user },
+                    message: 'Details updated successfully',
+                    metadata: {
+                        fakeOTP: 1234,
+                        description1: 'data.otp is a sha1 hash of OTP',
+                        description2: 'The sha1 hash of user\'s OTP input must match data.otp',
+                    }
                 })
         }).catch(error => {
             console.log(error);

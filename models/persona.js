@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
     /**
      * generates a signed jwt token for this user account object
      */
-    generateJwt() {
+    generateJwt(pin) {
       const expiry = new Date;
       expiry.setDate(expiry.getDate() + 7);
       return jwt.sign({
