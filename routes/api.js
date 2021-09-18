@@ -14,6 +14,10 @@ const auth = expressJwt({
     // if we didn't supply a valid token, control flow continues at the bottom error handler in app.js
 });
 
+const methodNotAllowed = (req, res)
+    => res.status(405)
+        .json({ message: 'This HTTP method is currently not allowed on this route' });
+
 import { register, login } from '../controllers/auth.js';
 import {
     addCohost,
@@ -28,19 +32,24 @@ router.post('/register', register);
 router.post('/login', login);
 
 router.route('/cohost')
-    .post(auth, addCohost);
+    .post(auth, addCohost)
+    .all(methodNotAllowed);
 
 router.route('/guest')
-    .post(auth, inviteGuest);
+    .post(auth, inviteGuest)
+    .all(methodNotAllowed);
 
 router.route('/pin')
-    .post(submitPin);
+    .post(submitPin)
+    .all(methodNotAllowed);
 
 router.route('/verify-otp')
-    .post(auth, verifyOTP);
+    .post(auth, verifyOTP)
+    .all(methodNotAllowed);
 
 router.route('/user')
     .put(auth, updateDetails)
-    .post(submitDetails);
+    .post(submitDetails)
+    .all(methodNotAllowed);
 
 export default router;
