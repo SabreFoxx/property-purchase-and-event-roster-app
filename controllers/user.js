@@ -20,6 +20,7 @@ const addCohost = async (req, res) => {
     try {
         const user = await models.Persona.create({
             name: req.body.name,
+            inactive: 0, // cohosts don't need OTP validation
             class: 'cohost'
         }, { transaction: t });
 
