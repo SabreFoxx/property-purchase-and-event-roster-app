@@ -35,7 +35,7 @@ const addCohost = async (req, res) => {
 
         await t.commit();
 
-        res.status(200)
+        res.status(201)
             .json({
                 data: { cohost: user, pins },
                 message: 'Cohost created successfully'
@@ -43,7 +43,7 @@ const addCohost = async (req, res) => {
     } catch (error) {
         await t.rollback();
         console.log(error);
-        res.status(503)
+        res.status(500)
             .json({ message: 'There was an error while creating the Cohost' });
     }
 }
@@ -58,14 +58,14 @@ const inviteGuest = (req, res) => {
         pin.createPersona({
             name: req.body.guestName
         }).then(guest => {
-            res.status(200)
+            res.status(201)
                 .json({
                     data: { pin, guest },
                     message: 'Guest added successfully'
                 })
         }).catch(error => {
             console.log(error);
-            res.status(400)
+            res.status(500)
                 .json({
                     message: 'Error adding guest'
                 });
@@ -145,7 +145,7 @@ const submitDetails = (req, res) => {
         });
         const otp = user.inactive;
         user.inactive = undefined; // remove from object
-        res.status(200)
+        res.status(201)
             .json({
                 data: {
                     otp: sha1(otp),
@@ -162,7 +162,7 @@ const submitDetails = (req, res) => {
             })
     }).catch(error => {
         console.log(error);
-        res.status(400)
+        res.status(500)
             .json({ message: 'Account creation failed' });
     })
 }
