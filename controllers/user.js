@@ -1,5 +1,5 @@
 import models, { sequelize } from '../models/index.js';
-import sha1 from 'js-sha1';
+import sha256 from 'js-sha256';
 
 const addCohost = async (req, res) => {
     // generates n pin initializers to be used in a Model.create() method
@@ -112,7 +112,7 @@ const updateDetails = (req, res) => {
             user.inactive = undefined; // remove from object
             res.status(200)
                 .json({
-                    data: { otp: sha1(otp), user },
+                    data: sha256(otp),
                     message: 'Details updated successfully',
                     metadata: {
                         testOTP: otp,
@@ -147,11 +147,7 @@ const submitDetails = (req, res) => {
         user.inactive = undefined; // remove from object
         res.status(201)
             .json({
-                data: {
-                    otp: sha1(otp),
-                    user,
-                    pin: pin.pin,
-                },
+                data: sha256(otp),
                 token: user.generateJwt(pin.pin),
                 message: 'Account created successfully',
                 metadata: {
