@@ -35,6 +35,9 @@ const addCohost = async (req, res) => {
 
         await t.commit();
 
+        user.personaId = user.id;
+        user.id = undefined;
+
         res.status(201)
             .json({
                 data: { cohost: user, pins },
@@ -99,7 +102,7 @@ const submitPin = (req, res) => {
 }
 
 const updateDetails = (req, res) => {
-    models.Pin.findByPk(req.payload.pin)
+    models.Pin.findOne({ where: { pin: req.payload.pin } })
         .then(async pin => {
             const user = await pin.getPersona();
             user.email = req.body.email;
@@ -112,12 +115,12 @@ const updateDetails = (req, res) => {
             user.inactive = undefined; // remove from object
             res.status(200)
                 .json({
-                    data: sha256(otp),
+                    data: sha256(otp.toString()),
                     message: 'Details updated successfully',
                     metadata: {
                         testOTP: otp,
-                        description1: 'data.otp is a sha1 hash of OTP',
-                        description2: 'The sha1 hash of user\'s OTP input must match data.otp',
+                        description1: 'data.otp is a sha256 hash of OTP',
+                        description2: 'The sha256 hash of user\'s OTP input must match data.otp',
                     }
                 })
         }).catch(error => {
@@ -147,13 +150,13 @@ const submitDetails = (req, res) => {
         user.inactive = undefined; // remove from object
         res.status(201)
             .json({
-                data: sha256(otp),
+                data: sha256(otp.toString()),
                 token: user.generateJwt(pin.pin),
                 message: 'Account created successfully',
                 metadata: {
                     testOTP: otp,
-                    description1: 'data.otp is a sha1 hash of OTP',
-                    description2: 'The sha1 hash of user\'s OTP input must match data.otp',
+                    description1: 'data.otp is a sha256 hash of OTP',
+                    description2: 'The sha256 hash of user\'s OTP input must match data.otp',
                 }
             })
     }).catch(error => {
