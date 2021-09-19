@@ -85,7 +85,7 @@ const submitPin = (req, res) => {
             const user = await pin.getPersona();
             res.status(200)
                 .json({
-                    data: { name: user.name, user },
+                    data: user.name,
                     token: user.generateJwt(pin.pin),
                     message: 'Pin correct'
                 })
