@@ -35,9 +35,6 @@ const addCohost = async (req, res) => {
 
         await t.commit();
 
-        user.personaId = user.id;
-        user.id = undefined;
-
         res.status(201)
             .json({
                 data: { cohost: user, pins },

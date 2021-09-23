@@ -28,6 +28,7 @@ import {
     submitDetails,
     verifyOTP
 } from '../controllers/user.js';
+import { fetchDashbord } from '../controllers/dashboard.js';
 
 router.post('/register', register);
 router.post('/login', login);
@@ -52,5 +53,7 @@ router.route('/user')
     .put(auth, updateDetails)
     .post(submitDetails)
     .all(methodNotAllowed);
+
+router.get('/dashboard');
 
 export default router;
