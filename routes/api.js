@@ -28,10 +28,14 @@ import {
     submitDetails,
     verifyOTP
 } from '../controllers/user.js';
-import { fetchDashbord } from '../controllers/dashboard.js';
+import { fetchDashboard } from '../controllers/dashboard.js';
 
 router.post('/register', register);
 router.post('/login', login);
+
+router.route('/admin/event-countdown')
+    .put(auth, setEventTimestamp)
+    .all(methodNotAllowed);
 
 router.route('/cohost')
     .post(auth, addCohost)
@@ -54,6 +58,6 @@ router.route('/user')
     .post(submitDetails)
     .all(methodNotAllowed);
 
-router.get('/dashboard');
+router.get('/dashboard', fetchDashboard);
 
 export default router;

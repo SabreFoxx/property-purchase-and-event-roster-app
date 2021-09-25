@@ -2,47 +2,57 @@ const fetchDashboard = (req, res) => {
     res.status(200)
         .json({
             data: {
-                timestamp: 0400,
+                timestamp: 1634982749,
                 agenda: [
                     {
                         id: 1,
                         title: "Opening prayer",
-                        speaker: "Jide Ofor",
+                        speaker: {
+                            name: "Fr. Lienus Mbaka",
+                            thumbnailUrl: "/images/Avatar.png"
+                        },
                         startTimestamp: 1634948072,
                         endTimestamp: 1635034472,
-                        thumbnailUrl: "/images/Avatar.png"
                     },
                     {
                         id: 2,
                         title: "National anthem",
-                        speaker: "Goodluck Jonathan",
+                        speaker: {
+                            name: "Goodluck Jonathan",
+                            thumbnailUrl: "/images/Avatar.png"
+                        },
                         startTimestamp: 1634948072,
                         endTimestamp: 1635034472,
-                        thumbnailUrl: "/images/Avatar.png"
                     },
                     {
                         id: 3,
                         title: "HSE remarks",
-                        speaker: "Bede Nwamuo",
+                        speaker: {
+                            name: "Bede Nwamuo",
+                            thumbnailUrl: "/images/Avatar.png"
+                        },
                         startTimestamp: 1634948072,
                         endTimestamp: 1635034472,
-                        thumbnailUrl: "/images/Avatar.png"
                     },
                     {
                         id: 4,
                         title: "Breaking of kolanut",
-                        speaker: "Jide Ofor",
+                        speaker: {
+                            name: "Jide Ofor",
+                            thumbnailUrl: "/images/Avatar.png"
+                        },
                         startTimestamp: 1634948072,
                         endTimestamp: 1635034472,
-                        thumbnailUrl: "/images/Avatar.png"
                     },
                     {
                         id: 5,
-                        title: "Opening prayer",
-                        speaker: "Jide Ofor",
+                        title: "Closing prayer",
+                        speaker: {
+                            name: "Pastor Adebayo",
+                            thumbnailUrl: "/images/Avatar.png"
+                        },
                         startTimestamp: 1634948072,
                         endTimestamp: 1635034472,
-                        thumbnailUrl: "/images/Avatar.png"
                     },
                 ]
             },
