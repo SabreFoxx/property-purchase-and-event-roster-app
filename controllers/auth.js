@@ -5,7 +5,7 @@ import passport from 'passport';
 const register = async (req, res) => {
     if (!req.body.email || !req.body.password)
         return res.status(400)
-            .json({ message: "Email and pass are required" });
+            .json({ message: "'email' and 'password' are required" });
 
     let newUser = models.Admin.build({
         email: req.body.email,

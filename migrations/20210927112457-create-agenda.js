@@ -1,18 +1,30 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('DataStores', {
+    await queryInterface.createTable('Agendas', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      key: {
+      title: {
         type: Sequelize.STRING
       },
-      value: {
+      startTimestamp: {
         type: Sequelize.STRING
+      },
+      endTimestamp: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.TEXT
+      },
+      youtubeLink: {
+        type: Sequelize.STRING
+      },
+      mainSpeakerId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -25,6 +37,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('DataStores');
+    await queryInterface.dropTable('Agendas');
   }
 };

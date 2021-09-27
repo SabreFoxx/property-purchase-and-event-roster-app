@@ -3,7 +3,7 @@ import * as sequelizeExport from 'sequelize';
 const { Model } = sequelizeExport.default || sequelizeExport;
 
 export default (sequelize, DataTypes) => {
-  class DataStore extends Model {
+  class Agenda extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,17 +11,19 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Agenda.belongsToMany(models.Speaker, { through: 'AgendaSpeaker', uniqueKey: false });
     }
   };
-  DataStore.init({
-    key: {
-      type: DataTypes.STRING,
-      unique: true
-    },
-    value: DataTypes.STRING
+  Agenda.init({
+    title: DataTypes.STRING,
+    startTimestamp: DataTypes.STRING,
+    endTimestamp: DataTypes.STRING,
+    description: DataTypes.TEXT,
+    youtubeLink: DataTypes.STRING,
+    mainSpeakerId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'DataStore',
+    modelName: 'Agenda',
   });
-  return DataStore;
+  return Agenda;
 };
