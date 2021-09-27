@@ -28,21 +28,19 @@ import {
     submitDetails,
     verifyOTP
 } from '../controllers/user.js';
-import { fetchDashboard } from '../controllers/dashboard.js';
+import { fetchDashboard, setEventCountdown } from '../controllers/dashboard.js';
+import { addSpeaker, fetchSpeaker, fetchAgenda } from '../controllers/activity.js';
 
 router.post('/register', register);
 router.post('/login', login);
 
 router.route('/admin/event-countdown')
-    .put(auth, setEventTimestamp)
+    .put(auth, setEventCountdown)
     .all(methodNotAllowed);
 
 router.route('/cohost')
     .post(auth, addCohost)
-    .all(methodNotAllowed);
-
-router.route('/guest')
-    .post(auth, inviteGuest)
+    .put(auth, inviteGuest)
     .all(methodNotAllowed);
 
 router.route('/pin')
@@ -59,5 +57,8 @@ router.route('/user')
     .all(methodNotAllowed);
 
 router.get('/dashboard', fetchDashboard);
+
+router.get('/agenda/:id', fetchAgenda);
+router.get('/speaker/:id', fetchSpeaker);
 
 export default router;

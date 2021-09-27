@@ -60,4 +60,6 @@ const fetchDashboard = (req, res) => {
         })
 }
 
-export { fetchDashboard }
+const setEventCountdown = (req, res) => { }
+
+export { fetchDashboard, setEventCountdown }
