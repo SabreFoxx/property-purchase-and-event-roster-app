@@ -29,7 +29,14 @@ import {
     verifyOTP
 } from '../controllers/user.js';
 import { fetchDashboard, setEventCountdown } from '../controllers/dashboard.js';
-import { addSpeaker, fetchSpeaker, fetchAgenda } from '../controllers/activity.js';
+import {
+    addSpeaker,
+    fetchSpeaker,
+    addAgenda,
+    fetchAgenda,
+    fetchAgendas,
+    updateAgenda
+} from '../controllers/activity.js';
 
 router.post('/register', register);
 router.post('/login', login);
@@ -58,7 +65,15 @@ router.route('/user')
 
 router.get('/dashboard', fetchDashboard);
 
-router.get('/agenda/:id', fetchAgenda);
+router.route('/agenda')
+    .get(fetchAgendas)
+    .post(createAgenda)
+    .all(methodNotAllowed)
+router.route('/agenda/:id')
+    .get(fetchAgenda)
+    .put(updateAgenda)
+    .all(methodNotAllowed);
+
 router.get('/speaker/:id', fetchSpeaker);
 
 export default router;

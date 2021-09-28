@@ -12,10 +12,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       startTimestamp: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       endTimestamp: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       description: {
         type: Sequelize.TEXT
