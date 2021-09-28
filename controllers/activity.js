@@ -9,8 +9,7 @@ const addSpeaker = (req, res) => {
     models.Speaker.create({
         name: req.body.name,
         titles: req.body.titles,
-        bio: req.body.bio,
-        thumbnailUrl: req.body.thumbnailString
+        bio: req.body.bio
     }).then(speaker => {
         res.status(201)
             .json({ data: speaker, message: "Speaker added successfully" });
@@ -20,11 +19,11 @@ const addSpeaker = (req, res) => {
 }
 
 const fetchSpeaker = (req, res) => {
-    return models.Speaker.fetchOne({
+    models.Speaker.fetchOne({
         where: { id: req.params.id }
     }).then(speaker => {
         res.status(200).json({ data: speaker, message: "Success" })
-    }).catch(400).json({ message: "No speaker matching supplied id" })
+    }).catch(error => res.status(400).json({ message: "No speaker matching supplied id" }))
 }
 
 const addAgenda = (req, res) => {
@@ -48,9 +47,9 @@ const addAgenda = (req, res) => {
         endTimestamp: end,
         description: req.body.description,
         youtubeLink: req.body.youtubeLink,
-        mainSpeakerId: req.body.speakerId
+        MainSpeakerId: req.body.speakerId
     }).then(agenda => {
-        agenda.mainSpeakerId = undefined;
+        agenda.MainSpeakerId = undefined;
         res.status(201)
             .json({
                 data: agenda,
@@ -64,7 +63,7 @@ const addAgenda = (req, res) => {
 const getAgenda = (id) => {
     return models.Agenda.fetchOne({
         where: { id: id },
-        attributes: { exclude: [mainSpeakerId, createdAt, updatedAt] }
+        attributes: { exclude: [MainSpeakerId, createdAt, updatedAt] }
     })
 }
 
@@ -95,7 +94,7 @@ const fetchAgenda = async (req, res) => {
 
 const fetchAgendas = (req, res) => {
     models.Agenda.findAll({
-        exclude: [mainSpeakerId, createdAt, updatedAt]
+        exclude: [MainSpeakerId, createdAt, updatedAt]
     }).then(agendas => {
         res.status(200)
             .json({

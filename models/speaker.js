@@ -11,7 +11,8 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Speaker.hasOne(models.Agenda, { foreignKey: 'mainSpeakerId' })
+      // hasOne(Agenda), as the main speaker of the agenda
+      Speaker.hasOne(models.Agenda, { foreignKey: 'MainSpeakerId' })
       Speaker.belongsToMany(models.Agenda, { through: 'AgendaSpeaker', uniqueKey: false })
     }
   };

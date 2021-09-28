@@ -25,7 +25,7 @@ module.exports = {
       youtubeLink: {
         type: Sequelize.STRING
       },
-      mainSpeakerId: {
+      MainSpeakerId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

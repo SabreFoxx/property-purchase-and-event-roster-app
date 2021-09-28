@@ -11,17 +11,17 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Agenda.belongsTo(models.Speaker, { foreignKey: 'mainSpeakerId' });
+      Agenda.belongsTo(models.Speaker, { foreignKey: 'MainSpeakerId' });
       Agenda.belongsToMany(models.Speaker, { through: 'AgendaSpeaker', uniqueKey: false });
     }
   };
   Agenda.init({
     title: DataTypes.STRING,
-    startTimestamp: DataTypes.DATETIME,
-    endTimestamp: DataTypes.DATETIME,
+    startTimestamp: DataTypes.DATE,
+    endTimestamp: DataTypes.DATE,
     description: DataTypes.TEXT,
     youtubeLink: DataTypes.STRING,
-    mainSpeakerId: DataTypes.INTEGER
+    MainSpeakerId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Agenda',

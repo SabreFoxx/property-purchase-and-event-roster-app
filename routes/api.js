@@ -67,13 +67,18 @@ router.get('/dashboard', fetchDashboard);
 
 router.route('/agenda')
     .get(fetchAgendas)
-    .post(createAgenda)
-    .all(methodNotAllowed)
+    .post(auth, addAgenda)
+    .all(methodNotAllowed);
 router.route('/agenda/:id')
     .get(fetchAgenda)
-    .put(updateAgenda)
+    .put(auth, updateAgenda)
     .all(methodNotAllowed);
 
-router.get('/speaker/:id', fetchSpeaker);
+router.route('/speaker')
+    .post(auth, addSpeaker);
+router.route('/speaker/:id')
+    .get(fetchSpeaker)
+    // .put(auth, updateSpeaker)
+    .all(methodNotAllowed);
 
 export default router;
