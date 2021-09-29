@@ -35,7 +35,8 @@ import {
     addAgenda,
     fetchAgenda,
     fetchAgendas,
-    updateAgenda
+    updateAgenda,
+    addSpeakerToAgenda
 } from '../controllers/activity.js';
 
 router.post('/register', register);
@@ -73,12 +74,14 @@ router.route('/agenda/:id')
     .get(fetchAgenda)
     .put(auth, updateAgenda)
     .all(methodNotAllowed);
+router.route('/agenda/:id/add-speaker')
+    .put(auth, addSpeakerToAgenda)
+    .all(methodNotAllowed);
 
 router.route('/speaker')
     .post(auth, addSpeaker);
 router.route('/speaker/:id')
     .get(fetchSpeaker)
-    // .put(auth, updateSpeaker)
     .all(methodNotAllowed);
 
 export default router;

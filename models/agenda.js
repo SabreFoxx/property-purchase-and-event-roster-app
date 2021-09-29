@@ -20,8 +20,7 @@ export default (sequelize, DataTypes) => {
     startTimestamp: DataTypes.DATE,
     endTimestamp: DataTypes.DATE,
     description: DataTypes.TEXT,
-    youtubeLink: DataTypes.STRING,
-    MainSpeakerId: DataTypes.INTEGER
+    youtubeLink: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Agenda',
