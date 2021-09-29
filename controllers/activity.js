@@ -1,4 +1,4 @@
-import models, { sequelize } from '../models/index.js';
+import models from '../models/index.js';
 import { strToTime } from '../utilities/time.js';
 
 const addSpeaker = (req, res) => {
@@ -32,19 +32,11 @@ const addAgenda = (req, res) => {
             .json({
                 message: "'title', 'start' and 'end' both in YYYY/MM/DD HH:MM:SS format are required"
             });
-    let start, end = null;
-    try {
-        start = strToTime(req.body.start);
-        end = strToTime(req.body.end)
-    } catch (err) {
-        return res.status(400)
-            .json({ message: "'start' and 'end' should both be in YYYY/MM/DD HH:MM:SS format" })
-    }
 
     models.Agenda.create({
         title: req.body.title,
-        startTimestamp: start,
-        endTimestamp: end,
+        startTimestamp: req.body.start,
+        endTimestamp: req.body.end,
         description: req.body.description,
         youtubeLink: req.body.youtubeLink,
         MainSpeakerId: req.body.speakerId
