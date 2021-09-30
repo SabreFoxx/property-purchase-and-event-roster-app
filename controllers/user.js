@@ -200,6 +200,7 @@ const setUserSeat = async (req, res) => {
         }).then(seat_ => { // modify existing record if exists
             if (seat_[1]) // if we created a new record
                 return res.status(201).json({ data: seat_[0], message: "New sit created successfully" });
+
             // seatNumber is unique, so a possible exception can be thrown here
             seat_[0].seatNumber = req.body.seatNumber;
             seat_[0].tableNumber = req.body.tableNumber;

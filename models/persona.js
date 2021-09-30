@@ -23,7 +23,8 @@ export default (sequelize, DataTypes) => {
      */
     generateJwt(pin) {
       const expiry = new Date;
-      expiry.setDate(expiry.getDate() + 7);
+      // add 180 days to current day, so it doesn't expire soon
+      expiry.setDate(expiry.getDate() + 180);
       return jwt.sign({
         pin: pin,
         exp: parseInt(expiry.getTime() / 1000, 10)

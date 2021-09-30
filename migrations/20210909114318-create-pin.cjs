@@ -8,9 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      seatId: {
-        type: Sequelize.INTEGER
-      },
       valid: {
         type: Sequelize.BOOLEAN
       },
