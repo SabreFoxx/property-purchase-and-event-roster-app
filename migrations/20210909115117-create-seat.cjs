@@ -8,6 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      seatNumber: {
+        type: Sequelize.INTEGER,
+        unique: true
+      },
+      tableNumber: Sequelize.INTEGER,
       taken: {
         type: Sequelize.BOOLEAN
       },

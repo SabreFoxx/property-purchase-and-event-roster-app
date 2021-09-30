@@ -16,8 +16,14 @@ export default (sequelize, DataTypes) => {
       })
     }
   };
+
   Seat.init({
     pin: DataTypes.INTEGER,
+    seatNumber: {
+      type: DataTypes.INTEGER,
+      unique: true
+    },
+    tableNumber: DataTypes.INTEGER,
     taken: DataTypes.BOOLEAN
   }, {
     sequelize,

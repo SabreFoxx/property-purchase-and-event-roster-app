@@ -26,7 +26,9 @@ import {
     submitPin,
     updateDetails,
     submitDetails,
-    verifyOTP
+    verifyOTP,
+    getUserSeat,
+    setUserSeat
 } from '../controllers/user.js';
 import { fetchDashboard, setEventCountdown } from '../controllers/dashboard.js';
 import {
@@ -59,6 +61,10 @@ router.route('/verify-otp')
     .post(auth, verifyOTP)
     .all(methodNotAllowed);
 
+router.route('/user/seat')
+    .get(auth, getUserSeat)
+    .put(auth, setUserSeat)
+    .all(methodNotAllowed);
 router.route('/user')
     .put(auth, updateDetails)
     .post(submitDetails)

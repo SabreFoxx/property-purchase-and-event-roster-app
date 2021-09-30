@@ -1,3 +1,4 @@
+import Sequelize from 'sequelize';
 import models, { sequelize } from '../models/index.js';
 import sha256 from 'js-sha256';
 
@@ -35,6 +36,7 @@ const addCohost = async (req, res) => {
 
         await t.commit();
 
+        delete user.dataValues["id"];
         res.status(201)
             .json({
                 data: { cohost: user, pins },
@@ -185,4 +187,69 @@ const verifyOTP = (req, res) => {
     });
 }
 
-export { addCohost, inviteGuest, submitPin, updateDetails, submitDetails, verifyOTP }
+const setUserSeat = async (req, res) => {
+    let seat;
+    try {
+        seat = await models.Seat.findOrCreate({
+            where: { pin: req.body.pin },
+            defaults: {
+                pin: req.body.pin,
+                seatNumber: req.body.seatNumber,
+                tableNumber: req.body.tableNumber
+            }
+        }).then(seat_ => { // modify existing record if exists
+            if (seat_[1]) // if we created a new record
+                return res.status(201).json({ data: seat_[0], message: "New sit created successfully" });
+            // seatNumber is unique, so a possible exception can be thrown here
+            seat_[0].seatNumber = req.body.seatNumber;
+            seat_[0].tableNumber = req.body.tableNumber;
+            seat_[0].taken = true;
+            seat_[0].save()
+                .then(seat => {
+                    res.status(200).json({ data: seat, message: "Seat modified successfully" });
+                }).catch(err => {
+                    res.status(400).json({ message: "Seat set failed" });
+                })
+        })
+    } catch (err) { // should catch if seatNumber is having an attempted duplicate
+        console.log(`${err.constructor.name}: ${err}`);
+
+        if (err instanceof Sequelize.UniqueConstraintError)
+            return models.Seat.findOne({
+                where: { seatNumber: req.body.seatNumber }
+            }).then(async usedSeat => {
+                let pin = await usedSeat.getPin();
+                let usedId = await pin.getPersona();
+                console.log(usedId.toJSON())
+                usedId = usedId.id;
+
+                // is seatNumber unique?
+                return res.status(409).json({
+                    message: `It appears a seat ${req.body.seatNumber} has been allocated to a userId ${usedId}`
+                });
+            });
+        res.status(500).json({ message: "Unknown error while setting sit" });
+    }
+}
+
+const getUserSeat = (req, res) => {
+    models.Seat.findOne({
+        where: { pin: req.payload.pin }
+    }).then(async seat => {
+        if (seat)
+            res.status(200).json({ data: seat, message: "Success" });
+        else
+            res.status(404).json({ message: "No seat allocated to user pin" });
+    });
+}
+
+export {
+    addCohost,
+    inviteGuest,
+    submitPin,
+    updateDetails,
+    submitDetails,
+    verifyOTP,
+    setUserSeat,
+    getUserSeat
+}
