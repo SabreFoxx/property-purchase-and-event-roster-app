@@ -10,6 +10,8 @@ export const addSpeaker = (req, res) => {
         titles: req.body.titles,
         bio: req.body.bio
     }).then(speaker => {
+        speaker.thumbnailUrl = `/images/speakers/${speaker.id}`;
+        speaker.save();
         res.status(201)
             .json({ data: speaker, message: "Speaker added successfully" });
     }).catch(error => {
