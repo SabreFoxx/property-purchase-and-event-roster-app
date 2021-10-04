@@ -11,11 +11,11 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      startTimestamp: {
+      startDatetime: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      endTimestamp: {
+      endDatetime: {
         type: Sequelize.STRING,
         allowNull: false
       },

@@ -17,8 +17,8 @@ export default (sequelize, DataTypes) => {
   };
   Agenda.init({
     title: DataTypes.STRING,
-    startTimestamp: DataTypes.DATE,
-    endTimestamp: DataTypes.DATE,
+    startDatetime: DataTypes.DATE,
+    endDatetime: DataTypes.DATE,
     description: DataTypes.TEXT,
     youtubeLink: DataTypes.STRING
   }, {

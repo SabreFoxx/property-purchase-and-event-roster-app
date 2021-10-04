@@ -13,9 +13,6 @@ module.exports = {
         unique: true
       },
       tableNumber: Sequelize.INTEGER,
-      taken: {
-        type: Sequelize.BOOLEAN
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

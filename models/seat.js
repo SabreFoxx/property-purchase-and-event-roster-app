@@ -23,8 +23,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       unique: true
     },
-    tableNumber: DataTypes.INTEGER,
-    taken: DataTypes.BOOLEAN
+    tableNumber: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Seat',

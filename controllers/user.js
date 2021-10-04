@@ -204,7 +204,6 @@ const setUserSeat = async (req, res) => {
             // seatNumber is unique, so a possible exception can be thrown here
             seat_[0].seatNumber = req.body.seatNumber;
             seat_[0].tableNumber = req.body.tableNumber;
-            seat_[0].taken = true;
             seat_[0].save()
                 .then(seat => {
                     res.status(200).json({ data: seat, message: "Seat modified successfully" });

@@ -10,7 +10,7 @@ export const addSpeaker = (req, res) => {
         titles: req.body.titles,
         bio: req.body.bio
     }).then(speaker => {
-        speaker.thumbnailUrl = `/images/speakers/${speaker.id}`;
+        speaker.thumbnailUrl = `/images/speakers/${speaker.id}.jpg`;
         speaker.save();
         res.status(201)
             .json({ data: speaker, message: "Speaker added successfully" });
@@ -35,8 +35,8 @@ export const addAgenda = (req, res) => {
 
     models.Agenda.create({
         title: req.body.title,
-        startTimestamp: req.body.start,
-        endTimestamp: req.body.end,
+        startDatetime: req.body.start,
+        endDatetime: req.body.end,
         description: req.body.description,
         youtubeLink: req.body.youtubeLink,
         MainSpeakerId: req.body.speakerId
@@ -52,11 +52,24 @@ export const addAgenda = (req, res) => {
     })
 }
 
+export const setMainSpeaker = async (req, res) => {
+    try {
+        const agenda = await getAgendaById(req.params.id);
+        agenda.MainSpeakerId = req.body.speakerId;
+        agenda.save();
+        res.status(200)
+            .json({ data: { agenda }, message: "Success" })
+    } catch (error) { message: "No agenda matching supplied id" }
+}
+
 export const fetchAgenda = async (req, res) => {
     try {
         const agenda = await getAgendaById(req.params.id);
         const speakers = await agenda.getSpeakers();
-        agenda.setSpeakers(speakers);
+        // remove useless sequelize association table from object
+        speakers.map(result => result.dataValues).forEach(speaker => {
+            speaker.AgendaSpeaker = undefined
+        })
         res.status(200)
             .json({ data: { agenda, speakers }, message: "Success" })
     } catch (error) { message: "No agenda matching supplied id" }
@@ -64,8 +77,15 @@ export const fetchAgenda = async (req, res) => {
 
 export const fetchAgendas = (req, res) => {
     models.Agenda.findAll({
-        exclude: ["MainSpeakerId", "createdAt", "updatedAt"]
+        attributes: { exclude: ["createdAt", "updatedAt"] }
     }).then(agendas => {
+        let arr = Array.from(agendas)
+        arr.forEach(element => { // convert to unix timestamp
+            let datum = Date.parse(element.startDatetime);
+            element.startTimestamp = datum / 1000;
+            let datum = Date.parse(element.endDatetime);
+            element.endTimestamp = datum / 1000;
+        });
         res.status(200)
             .json({
                 data: agendas,
@@ -101,7 +121,7 @@ export const addSpeakerToAgenda = async (req, res) => {
 const getAgendaById = (id) => {
     return models.Agenda.findOne({
         where: { id: id },
-        attributes: { exclude: ["MainSpeakerId", "createdAt", "updatedAt"] }
+        attributes: { exclude: ["createdAt", "updatedAt"] }
     });
 }
 
