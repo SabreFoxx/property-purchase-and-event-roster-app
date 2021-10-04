@@ -66,6 +66,9 @@ export const fetchAgenda = async (req, res) => {
     try {
         const agenda = await getAgendaById(req.params.id);
         const speakers = await agenda.getSpeakers();
+        agenda.startDatetime = undefined
+        agenda.endDatetime = undefined
+
         // remove useless sequelize association table from object
         speakers.map(result => result.dataValues).forEach(speaker => {
             speaker.AgendaSpeaker = undefined
@@ -77,14 +80,12 @@ export const fetchAgenda = async (req, res) => {
 
 export const fetchAgendas = (req, res) => {
     models.Agenda.findAll({
-        attributes: { exclude: ["createdAt", "updatedAt"] }
+        attributes: { exclude: ["startDatetime", "createdAt", "updatedAt"] }
     }).then(agendas => {
         let arr = Array.from(agendas)
-        arr.forEach(element => { // convert to unix timestamp
-            let datum = Date.parse(element.startDatetime);
-            element.startTimestamp = datum / 1000;
-            let datum = Date.parse(element.endDatetime);
-            element.endTimestamp = datum / 1000;
+        arr.forEach(element => {
+            // element.startDatetime = undefined
+            // element.endDatetime = undefined
         });
         res.status(200)
             .json({
