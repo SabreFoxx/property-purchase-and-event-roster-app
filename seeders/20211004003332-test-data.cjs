@@ -24,14 +24,14 @@ module.exports = {
         class: 'cohost',
         inactive: 0,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Jide',
         class: 'cohost',
         inactive: 0,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Ndidiamaka',
@@ -41,14 +41,14 @@ module.exports = {
         inactive: 0,
         deviceId: 'ABCDEFG',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Chiamaka',
         class: 'invitee',
         inactive: 1,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Chisimdi',
@@ -58,28 +58,28 @@ module.exports = {
         inactive: 3944,
         deviceId: 'ABCDEFG',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Chikodi',
         class: 'invitee',
-        inactive: 1,
+        inactive: 0,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Okodie',
         class: 'invitee',
         inactive: 1,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Femi',
         class: 'invitee',
         inactive: 1,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Lotanna',
@@ -89,7 +89,7 @@ module.exports = {
         inactive: 0,
         deviceId: 'ABCDEFG',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
     ], {});
 
@@ -98,19 +98,19 @@ module.exports = {
         name: 'Adanonso',
         PersonaId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Nnaemeka',
         PersonaId: 3,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Jide',
         PersonaId: 4,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
     ], {});
 
@@ -121,7 +121,7 @@ module.exports = {
         bio: 'She is a well deserved woman who loves to speak to the public',
         thumbnailUrl: '/images/speakers/1.jpg',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Luke Skyhaven',
@@ -129,7 +129,7 @@ module.exports = {
         bio: 'He is a well deserved man who loves to speak to the public',
         thumbnailUrl: '/images/speakers/2.jpg',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Kelvin Hart',
@@ -137,7 +137,7 @@ module.exports = {
         bio: 'He is a well deserved man who loves to speak to the public',
         thumbnailUrl: '/images/speakers/3.jpg',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         name: 'Dwain Johnson',
@@ -145,7 +145,7 @@ module.exports = {
         bio: 'He is a well deserved man who loves to speak to the public',
         thumbnailUrl: '/images/speakers/4.jpg',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
     ]);
 
@@ -158,7 +158,7 @@ module.exports = {
         youtubeLink: 'youtube.com',
         MainSpeakerId: 1,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         title: 'National anthem',
@@ -168,7 +168,7 @@ module.exports = {
         youtubeLink: 'youtube.com',
         MainSpeakerId: 1,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         title: 'Cutting of kolanut',
@@ -178,7 +178,7 @@ module.exports = {
         youtubeLink: 'youtube.com',
         MainSpeakerId: 3,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         title: 'HSE presentation',
@@ -187,7 +187,7 @@ module.exports = {
         description: 'This is an important event',
         youtubeLink: 'youtube.com',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         title: 'GVE main event',
@@ -196,7 +196,7 @@ module.exports = {
         description: 'This is an important event',
         youtubeLink: 'youtube.com',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         title: 'Closing prayer',
@@ -205,7 +205,7 @@ module.exports = {
         description: 'This is an important event',
         youtubeLink: 'youtube.com',
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
     ]);
 
@@ -214,37 +214,37 @@ module.exports = {
         AgendaId: 1,
         SpeakerId: 1,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         AgendaId: 1,
         SpeakerId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         AgendaId: 1,
         SpeakerId: 3,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         AgendaId: 6,
         SpeakerId: 1,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         AgendaId: 6,
         SpeakerId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         AgendaId: 6,
         SpeakerId: 3,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
     ]);
 
@@ -255,7 +255,7 @@ module.exports = {
         PersonaId: 5,
         CohostId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1112,
@@ -263,28 +263,28 @@ module.exports = {
         PersonaId: 6,
         CohostId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1113,
         valid: true,
         CohostId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1114,
         valid: true,
         CohostId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1115,
         valid: true,
         CohostId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1116,
@@ -292,7 +292,7 @@ module.exports = {
         PersonaId: 7,
         CohostId: 3,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1117,
@@ -300,28 +300,28 @@ module.exports = {
         PersonaId: 8,
         CohostId: 3,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1118,
         valid: true,
         CohostId: 3,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1119,
         valid: true,
         CohostId: 3,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1120,
         valid: true,
         CohostId: 3,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1121,
@@ -329,7 +329,7 @@ module.exports = {
         PersonaId: 9,
         CohostId: 4,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1122,
@@ -337,28 +337,28 @@ module.exports = {
         PersonaId: 10,
         CohostId: 4,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1123,
         valid: true,
         CohostId: 4,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1124,
         valid: true,
         CohostId: 4,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1125,
         valid: true,
         CohostId: 4,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
       {
         pin: 1126,
@@ -366,7 +366,7 @@ module.exports = {
         PersonaId: 11,
         CohostId: 1,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
       },
     ]);
 
@@ -376,7 +376,14 @@ module.exports = {
         tableNumber: 3,
         pin: 1111,
         createdAt: new Date(),
-        updatedAt: new Date()  
+        updatedAt: new Date()
+      },
+      {
+        seatNumber: 15,
+        tableNumber: 3,
+        pin: 1117,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]);
   },

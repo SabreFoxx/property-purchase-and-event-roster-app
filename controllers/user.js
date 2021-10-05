@@ -188,19 +188,22 @@ const verifyOTP = (req, res) => {
 }
 
 const setUserSeat = async (req, res) => {
-    let seat;
     try {
-        seat = await models.Seat.findOrCreate({
+        await models.Seat.findOrCreate({
             where: { pin: req.body.pin },
             defaults: {
                 pin: req.body.pin,
                 seatNumber: req.body.seatNumber,
                 tableNumber: req.body.tableNumber
             }
-        }).then(seat_ => { // modify existing record if exists
-            if (seat_[1]) // if we created a new record
-                return res.status(201).json({ data: seat_[0], message: "New sit created successfully" });
+        }).then(seat_ => {
+            if (seat_[1]) // return if we created a new record...
+                return res.status(201).json({
+                    data: seat_[0],
+                    message: "New sit created successfully"
+                });
 
+            // ...or modify existing record if it exists already
             // seatNumber is unique, so a possible exception can be thrown here
             seat_[0].seatNumber = req.body.seatNumber;
             seat_[0].tableNumber = req.body.tableNumber;
@@ -208,27 +211,32 @@ const setUserSeat = async (req, res) => {
                 .then(seat => {
                     res.status(200).json({ data: seat, message: "Seat modified successfully" });
                 }).catch(err => {
-                    res.status(400).json({ message: "Seat set failed" });
-                })
+                    if (err instanceof Sequelize.UniqueConstraintError)
+                        return seatIsAlreadyAllocated();
+                    else
+                        res.status(400).json({ message: "Seat set failed" });
+                });
         })
     } catch (err) { // should catch if seatNumber is having an attempted duplicate
-        console.log(`${err.constructor.name}: ${err}`);
-
         if (err instanceof Sequelize.UniqueConstraintError)
-            return models.Seat.findOne({
-                where: { seatNumber: req.body.seatNumber }
-            }).then(async usedSeat => {
-                let pin = await usedSeat.getPin();
-                let usedId = await pin.getPersona();
-                console.log(usedId.toJSON())
-                usedId = usedId.id;
-
-                // is seatNumber unique?
-                return res.status(409).json({
-                    message: `It appears a seat ${req.body.seatNumber} has been allocated to a userId ${usedId}`
-                });
-            });
+            return seatIsAlreadyAllocated();
         res.status(500).json({ message: "Unknown error while setting sit" });
+    }
+
+    const seatIsAlreadyAllocated = () => {
+        return models.Seat.findOne({
+            where: { seatNumber: req.body.seatNumber }
+        }).then(async usedSeat => {
+            let pin = await usedSeat.getPin();
+            let usedId = await pin.getPersona();
+            usedId = usedId.id;
+
+            // is seatNumber unique?
+            return res.status(409).json({
+                message: `It appears a seat ${req.body.seatNumber} has been allocated`
+                    + ` to a userId ${usedId}`
+            });
+        });
     }
 }
 
