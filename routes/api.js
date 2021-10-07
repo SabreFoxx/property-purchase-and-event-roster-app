@@ -41,6 +41,7 @@ import {
     addSpeakerToAgenda,
     setMainSpeaker
 } from '../controllers/activity.js';
+import { fetchProperty, addProperty, addPropertyCategory } from '../controllers/property.js';
 
 router.post('/register', register);
 router.post('/login', login);
@@ -90,6 +91,14 @@ router.route('/speaker')
     .post(auth, addSpeaker);
 router.route('/speaker/:id')
     .get(fetchSpeaker)
+    .all(methodNotAllowed);
+
+router.route('/property')
+    .get(fetchProperty)
+    .post(auth, addProperty)
+    .all(methodNotAllowed);
+router.route('/property/cat')
+    .post(auth, addPropertyCategory)
     .all(methodNotAllowed);
 
 export default router;

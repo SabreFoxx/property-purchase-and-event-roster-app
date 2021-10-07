@@ -16,21 +16,22 @@ export const addSpeaker = (req, res) => {
             .json({ data: speaker, message: "Speaker added successfully" });
     }).catch(error => {
         res.status(500).json({ message: "Error adding speaker" })
-    })
+    });
 }
 
 export const fetchSpeaker = (req, res) => {
     getSpeakerById(req.params.id)
         .then(speaker => {
             res.status(200).json({ data: speaker, message: "Success" })
-        }).catch(error => res.status(400).json({ message: "No speaker matching supplied id" }))
+        }).catch(error => res.status(400).json({ message: "No speaker matching supplied id" }));
 }
 
 export const addAgenda = (req, res) => {
     if (!req.body.title || !req.body.start || !req.body.end)
         return res.status(400)
             .json({
-                message: "'title', 'start' and 'end' both in YYYY/MM/DD HH:MM:SS format are required"
+                message: "'title', 'start' and 'end' both in "
+                    + "YYYY/MM/DD HH:MM:SS format are required"
             });
 
     models.Agenda.create({
@@ -49,7 +50,7 @@ export const addAgenda = (req, res) => {
             })
     }).catch(error => {
         res.status(400).json({ message: "Error creating agenda" });
-    })
+    });
 }
 
 export const setMainSpeaker = async (req, res) => {
@@ -58,7 +59,7 @@ export const setMainSpeaker = async (req, res) => {
         agenda.MainSpeakerId = req.body.speakerId;
         agenda.save();
         res.status(200)
-            .json({ data: { agenda }, message: "Success" })
+            .json({ data: { agenda }, message: "Success" });
     } catch (error) { message: "No agenda matching supplied id" }
 }
 
@@ -82,11 +83,6 @@ export const fetchAgendas = (req, res) => {
     models.Agenda.findAll({
         attributes: { exclude: ["startDatetime", "createdAt", "updatedAt"] }
     }).then(agendas => {
-        let arr = Array.from(agendas)
-        arr.forEach(element => {
-            // element.startDatetime = undefined
-            // element.endDatetime = undefined
-        });
         res.status(200)
             .json({
                 data: agendas,
