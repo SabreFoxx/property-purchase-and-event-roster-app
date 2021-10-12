@@ -1,11 +1,9 @@
 import * as sequelizeExport from 'sequelize';
-import env from 'dotenv';
-env.config();
 
 const { Model } = sequelizeExport.default || sequelizeExport;
 
 export default (sequelize, DataTypes) => {
-  class Property extends Model {
+  class Sale extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,20 +11,19 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Property.belongsTo(models.PropertyCategory);
-      Property.belongsTo(models.Sale);
+      Sale.hasMany(models.Property);
+      Sale.hasMany(models.Persona);
     }
   };
-  Property.init({
-    plotId: DataTypes.STRING,
-    size: DataTypes.INTEGER,
-    unit: DataTypes.STRING,
-    price: DataTypes.INTEGER,
-    thumbnailUrl: DataTypes.STRING,
-    isTaken: DataTypes.BOOLEAN
+  Sale.init({
+    paymentProvider: DataTypes.STRING,
+    paymentReference: DataTypes.STRING,
+    amount: DataTypes.STRING,
+    clientConfirmedPayment: DataTypes.BOOLEAN,
+    webhookConfirmedPayment: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'Property',
+    modelName: 'Sale',
   });
-  return Property;
+  return Sale;
 };

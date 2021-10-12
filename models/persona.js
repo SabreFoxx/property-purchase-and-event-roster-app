@@ -16,6 +16,7 @@ export default (sequelize, DataTypes) => {
       // define association here
       Persona.hasOne(models.Pin);
       Persona.hasOne(models.Cohost);
+      Persona.belongsTo(models.Sale);
     }
 
     /**

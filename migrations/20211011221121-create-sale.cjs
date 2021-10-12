@@ -1,32 +1,27 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Property', {
+    await queryInterface.createTable('Sale', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      plotId: {
-        type: Sequelize.STRING,
-        unique: true
-      },
-      size: {
-        type: Sequelize.INTEGER
-      },
-      price: {
-        type: Sequelize.INTEGER
-      },
-      unit: {
+      paymentProvider: {
         type: Sequelize.STRING
       },
-      thumbnailUrl: {
+      paymentReference: {
         type: Sequelize.STRING
       },
-      isTaken: {
-        type: Sequelize.BOOLEAN,
-        default: false
+      amount: {
+        type: Sequelize.STRING
+      },
+      clientConfirmedPayment: {
+        type: DataTypes.BOOLEAN
+      },
+      webhookConfirmedPayment: {
+        type: DataTypes.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +34,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Property');
+    await queryInterface.dropTable('Sale');
   }
 };

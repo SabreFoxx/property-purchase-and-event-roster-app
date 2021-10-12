@@ -41,7 +41,13 @@ import {
     addSpeakerToAgenda,
     setMainSpeaker
 } from '../controllers/activity.js';
-import { fetchProperty, addProperty, addPropertyCategory } from '../controllers/property.js';
+import {
+    fetchProperty,
+    addProperty,
+    addPropertyCategory,
+    initiatePayment,
+    verifyPayment
+} from '../controllers/property.js';
 
 router.post('/register', register);
 router.post('/login', login);
@@ -99,6 +105,10 @@ router.route('/property')
     .all(methodNotAllowed);
 router.route('/property/cat')
     .post(auth, addPropertyCategory)
+    .all(methodNotAllowed);
+router.route('/property/:plotId')
+    .get(auth, initiatePayment)
+    .post(auth, verifyPayment)
     .all(methodNotAllowed);
 
 export default router;
