@@ -1,5 +1,8 @@
-import models from '../models/index.js';
+import models, { sequelize } from '../models/index.js';
 import { uniqueId } from '../utilities/functions.js';
+import paystackLib from 'paystack';
+import env from 'dotenv';
+env.config();
 
 export const fetchProperty = (req, res) => {
     models.PropertyCategory.findAll({ include: models.Property })
@@ -78,5 +81,41 @@ export const initiatePayment = (req, res) => {
 }
 
 export const verifyPayment = (req, res) => {
+    const paystack = paystackLib(process.env.PAYSTACK_SECRET_KEY);
 
+    // check reference id exists
+    models.Sale.findOne({
+        where: { paymentReference: req.body.referenceId },
+        include: models.Property
+    }).then(async sale => {
+        const paystackVerificationResponse = await paystack.transaction
+            .verify(sale.paymentReference);
+        if (paystackVerificationResponse.status) {
+            const t = await sequelize.transaction();
+            try {
+                if (sale.webhookHasConfirmedPayment) {
+                    sale.property.isTaken = true;
+                    await sale.property.save({ transaction: t });
+                }
+                sale.clientHasConfirmedPayment = true;
+                await sale.save({ transaction: t });
+
+                await t.commit();
+            } catch (err) {
+                await t.rollback();
+                console.log(err);
+                
+                res.status(400)
+                    .json({ message: "Payment verification failed" });
+            }
+            res.status(200)
+                .json({ message: "Payment successful" });
+        }
+        else
+            res.status(400)
+                .json({ message: "Payment unsuccessful" });
+    }).catch(() => {
+        res.status(400)
+            .json({ message: "No payment reference found" });
+    });
 }

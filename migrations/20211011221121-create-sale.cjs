@@ -17,10 +17,10 @@ module.exports = {
       amount: {
         type: Sequelize.STRING
       },
-      clientConfirmedPayment: {
+      clientHasConfirmedPayment: {
         type: DataTypes.BOOLEAN
       },
-      webhookConfirmedPayment: {
+      webhookHasConfirmedPayment: {
         type: DataTypes.BOOLEAN
       },
       createdAt: {
