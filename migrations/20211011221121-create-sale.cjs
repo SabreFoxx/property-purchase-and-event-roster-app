@@ -1,7 +1,4 @@
 'use strict';
-
-const { DataTypes } = require("sequelize/types");
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Sale', {
@@ -21,13 +18,15 @@ module.exports = {
         type: Sequelize.STRING
       },
       clientHasConfirmedPayment: {
-        type: DataTypes.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       webhookHasConfirmedPayment: {
-        type: DataTypes.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       paymentGatewayPayload: {
-        type: DataTypes.JSON
+        type: Sequelize.JSON
       },
       createdAt: {
         allowNull: false,

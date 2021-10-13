@@ -11,8 +11,8 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Sale.hasMany(models.Property);
-      Sale.hasMany(models.Persona);
+      Sale.belongsTo(models.Persona);
+      Sale.belongsTo(models.Property);
     }
   };
 

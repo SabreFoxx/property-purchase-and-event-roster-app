@@ -14,7 +14,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Property.belongsTo(models.PropertyCategory);
-      Property.belongsTo(models.Sale);
+      Property.hasMany(models.Sale);
     }
   };
   Property.init({

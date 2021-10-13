@@ -8,6 +8,7 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
+    // Sale.belongsTo(models.Property);
     await queryInterface.addColumn(
       'Sale',
       'PropertyId',
@@ -22,6 +23,7 @@ module.exports = {
       }
     );
 
+    // Sale.belongsTo(models.Persona);
     await queryInterface.addColumn(
       'Sale',
       'PersonaId',

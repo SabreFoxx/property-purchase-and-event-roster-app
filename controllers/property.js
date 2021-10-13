@@ -63,19 +63,29 @@ export const initiatePayment = (req, res) => {
             isTaken: false
         }
     }).then(async property => {
+        // extract pin from jwt and use to fetch user who wants to pay
+        const payerPin = await models.Pin.findOne({
+            where: { pin: req.payload.pin },
+            include: models.Persona
+        });
+
         const sale = await property.createSale({
             paymentProvider: 'paystack',
             paymentReference: uniqueId(),
             amount: property.price
         });
 
-        referenceId = property.isTaken == false ? sale.paymentReference : '';
+        // set the user who want to pay
+        await sale.setPersona(payerPin.Persona);
+
+        let referenceId = property.isTaken == false ? sale.paymentReference : '';
         res.status(200)
             .json({
                 data: { referenceId, isTaken: property.isTaken },
                 message: "Success"
             });
-    }).catch(() => {
+    }).catch(err => {
+        console.log(err);
         res.status(204)
             .json({ message: "No property matches supplied id" });
     });
