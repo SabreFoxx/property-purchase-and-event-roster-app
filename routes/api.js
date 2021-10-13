@@ -46,7 +46,8 @@ import {
     addProperty,
     addPropertyCategory,
     initiatePayment,
-    verifyPayment
+    verifyPayment,
+    paystackWebhook
 } from '../controllers/property.js';
 
 router.post('/register', register);
@@ -106,6 +107,7 @@ router.route('/property')
 router.route('/property/cat')
     .post(auth, addPropertyCategory)
     .all(methodNotAllowed);
+router.post('/property/paystack-webhook', paystackWebhook);
 router.route('/property/:plotId')
     .get(auth, initiatePayment)
     .post(auth, verifyPayment)

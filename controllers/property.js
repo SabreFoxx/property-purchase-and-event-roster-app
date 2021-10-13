@@ -1,6 +1,7 @@
 import models, { sequelize } from '../models/index.js';
 import { uniqueId } from '../utilities/functions.js';
 import paystackLib from 'paystack';
+import crypto from 'crypto';
 import env from 'dotenv';
 env.config();
 
@@ -104,7 +105,7 @@ export const verifyPayment = (req, res) => {
             } catch (err) {
                 await t.rollback();
                 console.log(err);
-                
+
                 res.status(400)
                     .json({ message: "Payment verification failed" });
             }
@@ -118,4 +119,32 @@ export const verifyPayment = (req, res) => {
         res.status(400)
             .json({ message: "No payment reference found" });
     });
+}
+
+export const paystackWebhook = (req, res) => {
+    const secret = process.env.PAYSTACK_SECRET_KEY;
+    let hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
+    if (hash == req.headers['x-paystack-signature'] && req.body.event == "charge.success") {
+        models.Sale.findOne({
+            where: { paymentReference: req.body.data.reference },
+            include: models.Property
+        }).then(async sale => {
+            const t = await sequelize.transaction();
+            try {
+                if (sale.clientHasConfirmedPayment) {
+                    sale.property.isTaken = true;
+                    await sale.property.save({ transaction: t });
+                }
+                sale.webhookHasConfirmedPayment = true;
+                sale.paymentGatewayPayload = req.body.data;
+                await sale.save({ transaction: t });
+
+                await t.commit();
+            } catch (err) {
+                await t.rollback();
+                console.log(err);
+            }
+        });
+    }
+    res.sendStatus(200);
 }

@@ -15,13 +15,14 @@ export default (sequelize, DataTypes) => {
       Sale.hasMany(models.Persona);
     }
   };
-  
+
   Sale.init({
     paymentProvider: DataTypes.STRING,
     paymentReference: DataTypes.STRING,
     amount: DataTypes.STRING,
     clientHasConfirmedPayment: DataTypes.BOOLEAN,
-    webhookHasConfirmedPayment: DataTypes.BOOLEAN
+    webhookHasConfirmedPayment: DataTypes.BOOLEAN,
+    paymentGatewayPayload: DataTypes.JSON
   }, {
     sequelize,
     modelName: 'Sale',
