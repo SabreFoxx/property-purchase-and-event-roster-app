@@ -28,9 +28,10 @@ import {
     submitDetails,
     verifyOTP,
     getUserSeat,
-    setUserSeat
+    setUserSeat,
+    paymentHistory as userPaymentHistory
 } from '../controllers/user.js';
-import { fetchDashboard, setEventCountdown } from '../controllers/dashboard.js';
+import { fetchDashboard, setEventCountdown, paymentLog } from '../controllers/dashboard.js';
 import {
     addSpeaker,
     fetchSpeaker,
@@ -56,6 +57,8 @@ router.post('/login', login);
 router.route('/admin/event-countdown')
     .put(auth, setEventCountdown)
     .all(methodNotAllowed);
+router.route('/admin/payment')
+    .get(auth, paymentLog);
 
 router.route('/cohost')
     .post(auth, addCohost)
@@ -77,6 +80,9 @@ router.route('/user/seat')
 router.route('/user')
     .put(auth, updateDetails)
     .post(submitDetails)
+    .all(methodNotAllowed);
+router.route('/user/payment')
+    .get(auth, userPaymentHistory)
     .all(methodNotAllowed);
 
 router.get('/dashboard', fetchDashboard);
@@ -108,9 +114,11 @@ router.route('/property/cat')
     .post(auth, addPropertyCategory)
     .all(methodNotAllowed);
 router.post('/property/paystack-webhook', paystackWebhook);
+router.route('/property/verify-payment')
+    .post(auth, verifyPayment)
+    .all(methodNotAllowed);
 router.route('/property/:plotId')
     .get(auth, initiatePayment)
-    .post(auth, verifyPayment)
     .all(methodNotAllowed);
 
 export default router;

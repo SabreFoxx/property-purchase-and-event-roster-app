@@ -75,7 +75,7 @@ export const initiatePayment = (req, res) => {
             amount: property.price
         });
 
-        // set the user who want to pay
+        // set the user who wants to pay
         await sale.setPersona(payerPin.Persona);
 
         let referenceId = property.isTaken == false ? sale.paymentReference : '';
@@ -105,8 +105,8 @@ export const verifyPayment = (req, res) => {
             const t = await sequelize.transaction();
             try {
                 if (sale.webhookHasConfirmedPayment) {
-                    sale.property.isTaken = true;
-                    await sale.property.save({ transaction: t });
+                    sale.Property.isTaken = true;
+                    await sale.Property.save({ transaction: t });
                 }
                 sale.clientHasConfirmedPayment = true;
                 await sale.save({ transaction: t });
@@ -133,8 +133,10 @@ export const verifyPayment = (req, res) => {
 
 export const paystackWebhook = (req, res) => {
     const secret = process.env.PAYSTACK_SECRET_KEY;
-    let hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
-    if (hash == req.headers['x-paystack-signature'] && req.body.event == "charge.success") {
+    let hash = crypto.createHmac('sha512', secret)
+        .update(JSON.stringify(req.body)).digest('hex');
+    if (hash == req.headers['x-paystack-signature']
+        && req.body.event == "charge.success") {
         models.Sale.findOne({
             where: { paymentReference: req.body.data.reference },
             include: models.Property
@@ -142,8 +144,8 @@ export const paystackWebhook = (req, res) => {
             const t = await sequelize.transaction();
             try {
                 if (sale.clientHasConfirmedPayment) {
-                    sale.property.isTaken = true;
-                    await sale.property.save({ transaction: t });
+                    sale.Property.isTaken = true;
+                    await sale.Property.save({ transaction: t });
                 }
                 sale.webhookHasConfirmedPayment = true;
                 sale.paymentGatewayPayload = req.body.data;

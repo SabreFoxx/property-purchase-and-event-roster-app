@@ -1,3 +1,5 @@
+import models, { sequelize } from "../models/index.js";
+
 const fetchDashboard = (req, res) => {
     res.status(200)
         .json({
@@ -57,9 +59,21 @@ const fetchDashboard = (req, res) => {
                 ]
             },
             message: "Ok"
-        })
+        });
+}
+
+const paymentLog = async (req, res) => {
+    const [data, metadata] = await sequelize.query(
+        `SELECT "plotId", "size", "price", "unit", "thumbnailUrl", 
+        "Sale"."createdAt" AS "purchaseDate", "name", "phone", "email" 
+        FROM "Property" INNER JOIN "Sale" ON "Property"."id" = "Sale"."PropertyId" 
+        INNER JOIN "Persona" ON "Sale"."PersonaId" = "Persona"."id" WHERE "isTaken" = false`,
+        { raw: true }
+    );
+    res.status(200)
+        .json({ data, message: "Success" });
 }
 
 const setEventCountdown = (req, res) => { }
 
-export { fetchDashboard, setEventCountdown }
+export { fetchDashboard, setEventCountdown, paymentLog }

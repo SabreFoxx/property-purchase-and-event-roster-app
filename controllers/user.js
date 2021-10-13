@@ -251,6 +251,8 @@ const getUserSeat = (req, res) => {
     });
 }
 
+const paymentHistory = (req, res) => { }
+
 export {
     addCohost,
     inviteGuest,
@@ -259,5 +261,6 @@ export {
     submitDetails,
     verifyOTP,
     setUserSeat,
-    getUserSeat
+    getUserSeat,
+    paymentHistory
 }
