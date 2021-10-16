@@ -6,7 +6,7 @@ import env from 'dotenv';
 env.config();
 
 export const fetchProperty = (req, res) => {
-    models.PropertyCategory.findAll({ include: models.Property })
+    models.PropertyCategory.findAll({ where: { isTaken: false }, include: models.Property })
         .then(properties => {
             res.status(200)
                 .json({ data: properties, message: "Success" })
