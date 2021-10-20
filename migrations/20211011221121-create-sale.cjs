@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       paymentProvider: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('paystack', 'offline')
       },
       paymentReference: {
         type: Sequelize.STRING

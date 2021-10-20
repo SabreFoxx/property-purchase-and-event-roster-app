@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import models, { sequelize } from '../models/index.js';
 import sha256 from 'js-sha256';
+import { confirmPayment } from './property.js';
 
 const addCohost = async (req, res) => {
     // generates n pin initializers to be used in a Model.create() method
@@ -251,7 +252,70 @@ const getUserSeat = (req, res) => {
     });
 }
 
-const paymentHistory = (req, res) => { }
+const paymentHistory = async (req, res) => {
+    // extract pin from jwt and use to fetch user who wants to pay
+    const payerPin = await models.Pin.findOne({
+        where: { pin: req.payload.pin },
+        include: models.Persona
+    });
+
+    // TODO doesn't return pending, complete or failed stauts
+    // TODO string date to timestamp
+    const [data, metadata] = await sequelize.query(
+        `SELECT "plotId", "amount", "Sale"."createdAt" AS "date", "isTaken" AS "stauts"
+        FROM "Property" INNER JOIN "Sale" ON "Property"."id" = "Sale"."PropertyId" 
+        INNER JOIN "Persona" ON "Sale"."PersonaId" = "Persona"."id"
+        WHERE "Persona"."id" = ${payerPin.Persona.id} AND "clientHasConfirmedPayment" = true`,
+        { raw: true }
+    );
+    res.status(200)
+        .json({ data, message: "Success" });
+}
+
+const successfulPayments = async (req, res) => {
+    // extract pin from jwt and use to fetch user who wants to pay
+    const payerPin = await models.Pin.findOne({
+        where: { pin: req.payload.pin },
+        include: models.Persona
+    });
+
+    const [data, metadata] = await sequelize.query(
+        `SELECT "plotId", "amount", "Sale"."createdAt" AS "date"
+        FROM "Property" INNER JOIN "Sale" ON "Property"."id" = "Sale"."PropertyId" 
+        INNER JOIN "Persona" ON "Sale"."PersonaId" = "Persona"."id" WHERE "isTaken" = true`,
+        { raw: true }
+    );
+    res.status(200)
+        .json({ data, message: "Success" });
+}
+
+const submitPaymentDocument = (req, res) => {
+    models.Sale.findOne({
+        where: { paymentReference: req.body.referenceId },
+        include: models.Property
+    }).then(async sale => {
+        sale.paymentProvider = "offline";
+        await sale.save();
+
+        // exit if our payment confirmation didn't succeed
+        if (await !confirmPayment(sale))
+            return res.status(400)
+                .json({ message: "Document submit failed" });
+
+        // TODO send document to admin's email
+        const document = {
+            name: req.body.name,
+            image: req.body.base64Document,
+            plotId: req.body.plotId
+        }
+        res.status(200)
+            .json({ message: "Document submitted successfully" });
+
+    }).catch(() => {
+        res.status(400)
+            .json({ message: "No payment reference found" });
+    });
+}
 
 export {
     addCohost,
@@ -262,5 +326,7 @@ export {
     verifyOTP,
     setUserSeat,
     getUserSeat,
-    paymentHistory
+    paymentHistory,
+    submitPaymentDocument,
+    successfulPayments
 }

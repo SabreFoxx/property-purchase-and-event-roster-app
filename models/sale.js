@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
   };
 
   Sale.init({
-    paymentProvider: DataTypes.STRING,
+    paymentProvider: DataTypes.ENUM('paystack', 'offline'),
     paymentReference: DataTypes.STRING,
     amount: DataTypes.STRING,
     clientHasConfirmedPayment: DataTypes.BOOLEAN,

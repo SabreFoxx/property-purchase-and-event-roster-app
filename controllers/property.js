@@ -58,10 +58,7 @@ export const addPropertyCategory = (req, res) => {
 
 export const initiatePayment = (req, res) => {
     models.Property.findOne({
-        where: {
-            plotId: req.params.plotId,
-            isTaken: false
-        }
+        where: { plotId: req.params.plotId }
     }).then(async property => {
         // extract pin from jwt and use to fetch user who wants to pay
         const payerPin = await models.Pin.findOne({
@@ -102,27 +99,13 @@ export const verifyPayment = (req, res) => {
         const paystackVerificationResponse = await paystack.transaction
             .verify(sale.paymentReference);
         if (paystackVerificationResponse.status) {
-            const t = await sequelize.transaction();
-            try {
-                if (sale.webhookHasConfirmedPayment) {
-                    sale.Property.isTaken = true;
-                    await sale.Property.save({ transaction: t });
-                }
-                sale.clientHasConfirmedPayment = true;
-                await sale.save({ transaction: t });
-
-                await t.commit();
-            } catch (err) {
-                await t.rollback();
-                console.log(err);
-
-                res.status(400)
+            if (await !confirmPayment(sale))
+                return res.status(400)
                     .json({ message: "Payment verification failed" });
-            }
+
             res.status(200)
                 .json({ message: "Payment successful" });
-        }
-        else
+        } else
             res.status(400)
                 .json({ message: "Payment unsuccessful" });
     }).catch(() => {
@@ -140,23 +123,62 @@ export const paystackWebhook = (req, res) => {
         models.Sale.findOne({
             where: { paymentReference: req.body.data.reference },
             include: models.Property
-        }).then(async sale => {
-            const t = await sequelize.transaction();
-            try {
-                if (sale.clientHasConfirmedPayment) {
-                    sale.Property.isTaken = true;
-                    await sale.Property.save({ transaction: t });
-                }
-                sale.webhookHasConfirmedPayment = true;
-                sale.paymentGatewayPayload = req.body.data;
-                await sale.save({ transaction: t });
-
-                await t.commit();
-            } catch (err) {
-                await t.rollback();
-                console.log(err);
-            }
+        }).then(sale => {
+            webhookConfirmPayment(sale, req.body.data);
         });
     }
     res.sendStatus(200);
+}
+
+/**
+ * webhookConfirmPayment allows the payment gateway such as paystact, call our app after 
+ * a successful payment, and marks the payment as successful in the database.
+ * It is also called by our app's admin, whenever req, resa user decides to us offline payment
+ * For a payment to be marked as done, the columns clientHasConfirmedPayment and 
+ * webhookHasConfirmedPayment of a record should be true.
+ */
+export const webhookConfirmPayment = async (sale, extraData) => {
+    const t = await sequelize.transaction();
+    try {
+        if (sale.clientHasConfirmedPayment) {
+            sale.Property.isTaken = true;
+            await sale.Property.save({ transaction: t });
+        }
+        sale.webhookHasConfirmedPayment = true;
+        sale.paymentGatewayPayload = extraData;
+        await sale.save({ transaction: t });
+
+        await t.commit();
+        return true;
+    } catch (err) {
+        await t.rollback();
+        console.log(err);
+        return false;
+    }
+}
+
+/**
+ * confirmPayment should be called when a user makes and online payment, or uploads a 
+ * document of proof for payment in the case of offline payment.
+ * For a payment to be marked as done, the columns clientHasConfirmedPayment and 
+ * webhookHasConfirmedPayment of a record should be true.
+ */
+export const confirmPayment = async (sale) => {
+    const t = await sequelize.transaction();
+    try {
+        if (sale.webhookHasConfirmedPayment) {
+            sale.Property.isTaken = true;
+            await sale.Property.save({ transaction: t });
+        }
+        sale.clientHasConfirmedPayment = true;
+        await sale.save({ transaction: t });
+
+        await t.commit();
+    } catch (err) {
+        await t.rollback();
+        console.log(err);
+        return false;
+    }
+
+    return true;
 }

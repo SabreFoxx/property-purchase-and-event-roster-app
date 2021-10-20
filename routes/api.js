@@ -1,4 +1,4 @@
-import express from 'express'
+import express from 'express';
 import env from 'dotenv';
 import expressJwt from 'express-jwt';
 
@@ -29,9 +29,15 @@ import {
     verifyOTP,
     getUserSeat,
     setUserSeat,
-    paymentHistory as userPaymentHistory
+    paymentHistory as userPaymentHistory,
+    submitPaymentDocument,
+    successfulPayments as paymentNotification
 } from '../controllers/user.js';
-import { fetchDashboard, setEventCountdown, paymentLog } from '../controllers/dashboard.js';
+import {
+    fetchDashboard,
+    setEventCountdown,
+    paymentLog
+} from '../controllers/dashboard.js';
 import {
     addSpeaker,
     fetchSpeaker,
@@ -40,7 +46,8 @@ import {
     fetchAgendas,
     updateAgenda,
     addSpeakerToAgenda,
-    setMainSpeaker
+    setMainSpeaker,
+    verifyOfflinePayment
 } from '../controllers/activity.js';
 import {
     fetchProperty,
@@ -58,7 +65,11 @@ router.route('/admin/event-countdown')
     .put(auth, setEventCountdown)
     .all(methodNotAllowed);
 router.route('/admin/payment')
-    .get(auth, paymentLog);
+    .get(auth, paymentLog)
+    .all(methodNotAllowed);
+router.route('/admin/payment/verify-offline')
+    .post(auth, verifyOfflinePayment)
+    .all(methodNotAllowed);
 
 router.route('/cohost')
     .post(auth, addCohost)
@@ -73,16 +84,22 @@ router.route('/verify-otp')
     .post(auth, verifyOTP)
     .all(methodNotAllowed);
 
-router.route('/user/seat')
-    .get(auth, getUserSeat)
-    .put(auth, setUserSeat)
-    .all(methodNotAllowed);
 router.route('/user')
     .put(auth, updateDetails)
     .post(submitDetails)
     .all(methodNotAllowed);
+router.route('/user/seat')
+    .get(auth, getUserSeat)
+    .put(auth, setUserSeat)
+    .all(methodNotAllowed);
 router.route('/user/payment')
     .get(auth, userPaymentHistory)
+    .all(methodNotAllowed);
+router.route('/user/payment/notification')
+    .get(auth, paymentNotification)
+    .all(methodNotAllowed);
+router.route('/user/document')
+    .post(auth, submitPaymentDocument)
     .all(methodNotAllowed);
 
 router.get('/dashboard', fetchDashboard);
