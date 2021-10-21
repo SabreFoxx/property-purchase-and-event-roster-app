@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING // TODO make unique
+        type: Sequelize.STRING
       },
       class: {
         type: Sequelize.ENUM,

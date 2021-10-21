@@ -1,5 +1,4 @@
 import models from '../models/index.js';
-import { webhookConfirmPayment } from './property.js';
 
 export const addSpeaker = (req, res) => {
     if (!req.body.name || !req.body.titles)
@@ -126,25 +125,5 @@ const getAgendaById = (id) => {
 const getSpeakerById = (id) => {
     return models.Speaker.findOne({
         where: { id: id }
-    });
-}
-
-export const verifyOfflinePayment = (req, res) => {
-    if (req.body.referenceId != req.body.retypeReferenceId)
-        return res.status(400).json({ message: "Please retype correct reference id" });
-    if (!req.body.name)
-        return res.status(400).json({ message: "Please enter payer name" });
-
-    models.Sale.findOne({
-        where: { paymentReference: req.body.referenceId },
-        include: models.Property
-    }).then(async sale => {
-        const data = {
-            type: 'offline payment',
-            name: req.body.name
-        }
-        if (await webhookConfirmPayment(sale, JSON.stringify(data)))
-            return res.status(200).json({ message: "Verification successful" });
-        res.status(400).json({ message: "Verfication unsuccessful" });
     });
 }

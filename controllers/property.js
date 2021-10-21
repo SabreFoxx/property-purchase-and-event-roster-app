@@ -5,8 +5,9 @@ import crypto from 'crypto';
 import env from 'dotenv';
 env.config();
 
+// TODO hide taken properties
 export const fetchProperty = (req, res) => {
-    models.PropertyCategory.findAll({ where: { isTaken: false }, include: models.Property })
+    models.PropertyCategory.findAll({ include: models.Property })
         .then(properties => {
             res.status(200)
                 .json({ data: properties, message: "Success" })
@@ -111,6 +112,26 @@ export const verifyPayment = (req, res) => {
     }).catch(() => {
         res.status(400)
             .json({ message: "No payment reference found" });
+    });
+}
+
+export const verifyOfflinePayment = (req, res) => {
+    if (req.body.referenceId != req.body.retypeReferenceId)
+        return res.status(400).json({ message: "Please retype correct reference id" });
+    if (!req.body.name)
+        return res.status(400).json({ message: "Please enter payer name" });
+
+    models.Sale.findOne({
+        where: { paymentReference: req.body.referenceId },
+        include: models.Property
+    }).then(async sale => {
+        const data = {
+            type: 'offline payment',
+            name: req.body.name
+        }
+        if (await webhookConfirmPayment(sale, JSON.stringify(data)))
+            return res.status(200).json({ message: "Verification successful" });
+        res.status(400).json({ message: "Verfication unsuccessful" });
     });
 }
 

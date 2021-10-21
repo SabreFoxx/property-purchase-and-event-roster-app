@@ -259,10 +259,9 @@ const paymentHistory = async (req, res) => {
         include: models.Persona
     });
 
-    // TODO doesn't return pending, complete or failed stauts
-    // TODO string date to timestamp
     const [data, metadata] = await sequelize.query(
-        `SELECT "plotId", "amount", "Sale"."createdAt" AS "date", "isTaken" AS "stauts"
+        `SELECT "plotId", "amount", "Sale"."createdAt" AS "date", "isTaken" AS "status",
+        "webhookHasConfirmedPayment" AS "isNotPending"
         FROM "Property" INNER JOIN "Sale" ON "Property"."id" = "Sale"."PropertyId" 
         INNER JOIN "Persona" ON "Sale"."PersonaId" = "Persona"."id"
         WHERE "Persona"."id" = ${payerPin.Persona.id} AND "clientHasConfirmedPayment" = true`,
@@ -280,9 +279,11 @@ const successfulPayments = async (req, res) => {
     });
 
     const [data, metadata] = await sequelize.query(
-        `SELECT "plotId", "amount", "Sale"."createdAt" AS "date"
+        `SELECT "plotId", "amount", "Sale"."createdAt" AS "date", "isTaken" AS "status"
         FROM "Property" INNER JOIN "Sale" ON "Property"."id" = "Sale"."PropertyId" 
-        INNER JOIN "Persona" ON "Sale"."PersonaId" = "Persona"."id" WHERE "isTaken" = true`,
+        INNER JOIN "Persona" ON "Sale"."PersonaId" = "Persona"."id"
+        WHERE "Persona"."id" = ${payerPin.Persona.id} AND "isTaken" = true
+        AND "webhookHasConfirmedPayment" = true`,
         { raw: true }
     );
     res.status(200)

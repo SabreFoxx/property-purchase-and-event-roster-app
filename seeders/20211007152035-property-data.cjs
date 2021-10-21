@@ -42,6 +42,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot567",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: true,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 1
@@ -62,6 +63,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot569",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: true,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 1
@@ -142,6 +144,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot577",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: true,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 3
@@ -165,6 +168,45 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 3
+      }
+    ]);
+
+    await queryInterface.bulkInsert('Sale', [
+      {
+        paymentProvider: 'offline',
+        paymentReference: 'kv0yiekpbr3m9a980b',
+        amount: 400000,
+        clientHasConfirmedPayment: true,
+        webhookHasConfirmedPayment: true,
+        PropertyId: 1,
+        PersonaId: 5
+      },
+      {
+        paymentProvider: 'offline',
+        paymentReference: 'kv0zgl4rp4dvilv0sv',
+        amount: 457300,
+        clientHasConfirmedPayment: true,
+        webhookHasConfirmedPayment: true,
+        PropertyId: 3,
+        PersonaId: 5
+      },
+      {
+        paymentProvider: 'offline',
+        paymentReference: 'kv0zt6us23vviejeook',
+        amount: 450000000,
+        clientHasConfirmedPayment: true,
+        webhookHasConfirmedPayment: true,
+        PropertyId: 11,
+        PersonaId: 5
+      },
+      {
+        paymentProvider: 'offline',
+        paymentReference: 'kv10r2xtq35s4ano83r',
+        amount: 354800,
+        clientHasConfirmedPayment: true,
+        webhookHasConfirmedPayment: false,
+        PropertyId: 6,
+        PersonaId: 5
       }
     ])
   },

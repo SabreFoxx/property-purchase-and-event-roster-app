@@ -46,8 +46,7 @@ import {
     fetchAgendas,
     updateAgenda,
     addSpeakerToAgenda,
-    setMainSpeaker,
-    verifyOfflinePayment
+    setMainSpeaker
 } from '../controllers/activity.js';
 import {
     fetchProperty,
@@ -55,6 +54,7 @@ import {
     addPropertyCategory,
     initiatePayment,
     verifyPayment,
+    verifyOfflinePayment,
     paystackWebhook
 } from '../controllers/property.js';
 

@@ -67,7 +67,8 @@ const paymentLog = async (req, res) => {
         `SELECT "plotId", "size", "price", "unit", "thumbnailUrl", 
         "Sale"."createdAt" AS "purchaseDate", "name", "phone", "email" 
         FROM "Property" INNER JOIN "Sale" ON "Property"."id" = "Sale"."PropertyId" 
-        INNER JOIN "Persona" ON "Sale"."PersonaId" = "Persona"."id" WHERE "isTaken" = true`,
+        INNER JOIN "Persona" ON "Sale"."PersonaId" = "Persona"."id"
+        WHERE "isTaken" = true AND "webhookHasConfirmedPayment" = true`,
         { raw: true }
     );
     res.status(200)
