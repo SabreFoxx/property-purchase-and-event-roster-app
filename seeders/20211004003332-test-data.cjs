@@ -386,6 +386,12 @@ module.exports = {
         updatedAt: new Date()
       }
     ]);
+
+    if (queryInterface.sequelize.getDialect() == 'postgres')
+      await queryInterface.sequelize
+        // if you don't update this with the last seeded value of Pin in this file,
+        // we'd have problems with the unique constraint of Pin
+        .query('ALTER SEQUENCE "Pin_pin_seq" RESTART WITH 1127', { raw: true });
   },
 
   down: async (queryInterface, Sequelize) => {

@@ -5,6 +5,7 @@ import logger from 'morgan';
 import passport from 'passport';
 
 /* init sequelize and load models */
+// process.env.NODE_ENV can be production or development
 const environment = process.env.NODE_ENV || 'development'; // defaults to development environment
 import { sequelize } from './models/index.js';
 // synchronize sequelize with database

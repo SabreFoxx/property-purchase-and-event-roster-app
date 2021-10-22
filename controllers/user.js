@@ -162,6 +162,9 @@ const submitDetails = (req, res) => {
             })
     }).catch(error => {
         console.log(error);
+        if (error instanceof Sequelize.UniqueConstraintError)
+            return res.status(409)
+                .json({ message: 'Account already exists' });
         res.status(500)
             .json({ message: 'Account creation failed' });
     })

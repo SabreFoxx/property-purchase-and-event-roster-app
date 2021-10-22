@@ -13,7 +13,7 @@ export const sendMail = (referenceId, name) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: process.env.NODEMAILER_EMAIL,
+            user: process.env.NODEMAILER_EMAIL_ACCOUNT,
             pass: process.env.NODEMAILER_EMAIL_PASSWORD
         },
     });
