@@ -53,6 +53,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot568",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 1
@@ -74,6 +75,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot570",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 2
@@ -84,6 +86,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot571",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 2
@@ -94,6 +97,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot572",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 2
@@ -104,6 +108,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot573",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 2
@@ -114,6 +119,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot574",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 2
@@ -124,6 +130,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot575",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 2
@@ -134,6 +141,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot576",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 3
@@ -155,6 +163,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot578",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 3
@@ -165,6 +174,7 @@ module.exports = {
         unit: "sqm",
         plotId: "Plot579",
         thumbnailUrl: "/images/land.jpeg",
+        isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
         PropertyCategoryId: 3
@@ -178,6 +188,8 @@ module.exports = {
         amount: 400000,
         clientHasConfirmedPayment: true,
         webhookHasConfirmedPayment: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
         PropertyId: 1,
         PersonaId: 5
       },
@@ -187,6 +199,8 @@ module.exports = {
         amount: 457300,
         clientHasConfirmedPayment: true,
         webhookHasConfirmedPayment: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
         PropertyId: 3,
         PersonaId: 5
       },
@@ -196,6 +210,8 @@ module.exports = {
         amount: 450000000,
         clientHasConfirmedPayment: true,
         webhookHasConfirmedPayment: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
         PropertyId: 11,
         PersonaId: 5
       },
@@ -205,6 +221,8 @@ module.exports = {
         amount: 354800,
         clientHasConfirmedPayment: true,
         webhookHasConfirmedPayment: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
         PropertyId: 6,
         PersonaId: 5
       }
