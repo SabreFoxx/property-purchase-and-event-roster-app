@@ -312,10 +312,11 @@ const submitPaymentDocument = (req, res) => {
             name: req.body.name,
             image: req.body.base64Document
         }
-        sendMail(req.body.referenceId, req.body.name);
-        res.status(200)
-            .json({ message: "Document submitted successfully" });
-
+        sendMail(req.body.referenceId, req.body.name)
+            .then(() => {
+                res.status(200)
+                    .json({ message: "Document submitted successfully" });
+            })
     }).catch(() => {
         res.status(400)
             .json({ message: "No payment reference found" });

@@ -19,8 +19,8 @@ export const sendMail = (referenceId, name) => {
     });
 
     // send mail with defined transport object
-    transporter.sendMail({
-        from: `"${req.body.name}" <bonitasmailer@gmail.com>`, // sender address
+    return transporter.sendMail({
+        from: `"${name}" <bonitasmailer@gmail.com>`, // sender address
         to: "gerald.nnebe@bonitasict.com, gerald.nnebe@bonitasict.com", // list of receivers
         subject: `${Date.now()} GVE Groundbreaking app offline payment receipt/`, // Subject line
         // text: `From ${req.body.name}: ${req.body.body}`, // plain text body
@@ -29,6 +29,6 @@ export const sendMail = (referenceId, name) => {
         // console.log("Message sent: %s", info.messageId);
         // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-        res.status(200).send('Message sent successfully');
+        // res.status(200).send('Message sent successfully');
     }).catch(e => console.log(e));
 };
