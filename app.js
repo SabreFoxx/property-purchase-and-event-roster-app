@@ -3,6 +3,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import passport from 'passport';
+import serverless from 'serverless-http';
 
 /* init sequelize and load models */
 // process.env.NODE_ENV can be production or development
@@ -15,7 +16,7 @@ import { sequelize } from './models/index.js';
         console.log('...running in production mode...');
         return await sequelize.sync(); // doesn't alter the database
     } else {
-        console.log('...running in development mode...');
+        console.log(`...running in ${environment} mode...`);
         return await sequelize.sync({ alter: true });
     }
 })()
@@ -58,5 +59,8 @@ app.use((err, req, res, next) => {
             .json({ message: `${err.name} : ${err.message}` });
     }
 });
+
+const expressHandler = serverless(app);
+export { expressHandler as handler };
 
 export default app;

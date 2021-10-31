@@ -1,0 +1,66 @@
+service: gve-groundbreaking-app
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: test
+  region: eu-west-3
+  stackName: gve-gbk-cloudfrm-sls-${sls:stage}
+  apiName: gve-gbk-app-api-sls-${sls:stage}
+  timeout: 20
+      
+  deploymentPrefix: serverless # The S3 prefix under which deployed artifacts should be stored. Default is serverless
+  
+  architecture: arm64 # cost efficient
+  
+  endpointType: regional # Optional endpoint configuration for API Gateway REST API. Default is Edge.
+  apiGateway: # Optional API Gateway global config
+    minimumCompressionSize: 0
+    description: Green valley estate groundbreaking event app
+    binaryMediaTypes: # Optional binary media types the API might return
+      - '*/*'
+    metrics:  false # Optional detailed Cloud Watch Metrics
+    usagePlan: # Optional usage plan configuration
+      quota:
+        limit: 5000
+        offset: 2
+        period: MONTH
+      throttle:
+        burstLimit: 200
+        rateLimit: 100
+        
+  stackTags: # Optional CF stack tags
+    desc: gve groundbreaking event app files
+    
+  iam:
+    role: arn:aws:iam::228535841440:role/bonitasict-lambda-role
+    deploymentRole: arn:aws:iam::228535841440:role/bonitasict-deployment-role
+    # deploymentRole should be a CloudFormation service role that has access policies
+    # to ApiGateway, CloudFormation and S3
+  
+  vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
+    securityGroupIds:
+      - sg-0dd4ccea037173f31
+    subnetIds:
+      - subnet-a8fa15c0
+      - subnet-c63137bd
+      - subnet-6d3f7420
+      
+  #notificationArns: # List of existing Amazon SNS topics in the same region where notifications about stack events are sent.
+  #  - 'arn:aws:sns:us-east-1:XXXXXX:mytopic'
+    
+  tags: # Optional service wide function tags
+    belongsTo: gve-groundbreaking-app
+    developedBy: Gerald Nnebe
+  
+functions:
+  app: # A Function
+    handler: app.expressHandler # The file and module for this specific function. Cannot be used when `image` is defined.
+    name: ${sls:stage}-gve-gbk-app-expressjs # optional, Deployed Lambda name
+    description: Green valley estate groundbreaking event app
+    events: # The Events that trigger this Function
+      - http: ANY /
+      - http: 'ANY {proxy+}'
+    # onError: arn:aws:sns:us-east-1:XXXXXX:sns-topic # Optional SNS topic / SQS arn which will be used for the DeadLetterConfig

@@ -20,6 +20,7 @@
     "passport-local": "^1.0.0",
     "paystack": "^2.0.1",
     "pg": "^8.7.1",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "serverless-http": "^2.7.0"
   }
 }
