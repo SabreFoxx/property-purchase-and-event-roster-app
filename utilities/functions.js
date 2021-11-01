@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import AWS from 'aws-sdk';
+AWS.config.update({ region: 'eu-west-3' });
 import env from 'dotenv';
 env.config();
 
@@ -32,3 +34,21 @@ export const sendMail = (referenceId, name) => {
         // res.status(200).send('Message sent successfully');
     }).catch(e => console.log(e));
 };
+
+export const sendOtp = (mobileNumber, otp) => {
+    var params = {
+        Message: "Welcome! your mobile verification code is: "
+            + otp + " Mobile Number is:" + mobileNumber,
+        PhoneNumber: mobileNumber
+    };
+
+    return new AWS.SNS()
+        .publish(params).promise()
+        .then(message => {
+            console.log("OTP SEND SUCCESS");
+        })
+        .catch(err => {
+            console.log("Error " + err)
+            return err;
+        });
+}
