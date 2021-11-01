@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import AWS from 'aws-sdk';
+AWS.config.update({ region: 'eu-west-3' });
 import env from 'dotenv';
 env.config();
 
@@ -32,3 +34,33 @@ export const sendMail = (referenceId, name) => {
         // res.status(200).send('Message sent successfully');
     }).catch(e => console.log(e));
 };
+
+export const sendOtp = (mobileNumber, otp) => {
+    // Create SMS Attribute parameters
+    var attr = {
+        attributes: {
+            'DefaultSMSType': 'Transactional', /* highest reliability */
+            //'DefaultSMSType': 'Promotional' /* lowest cost */
+        }
+    };
+
+    var params = {
+        Message: "Welcome! your mobile verification code is: "
+            + otp + " Mobile Number is:" + mobileNumber,
+        PhoneNumber: mobileNumber
+    };
+
+    // Create promise and SNS service object
+    let setSMSTypePromise = new AWS.SNS({ apiVersion: '2010-03-31' })
+        .setSMSAttributes(attr).publish(params).promise();
+
+    // Handle promise's fulfilled/rejected states
+    setSMSTypePromise.then(message => {
+        console.log(message)
+        console.log("OTP SEND SUCCESS");
+    })
+        .catch(err => {
+            console.log("Error " + err)
+            return err;
+        });
+}

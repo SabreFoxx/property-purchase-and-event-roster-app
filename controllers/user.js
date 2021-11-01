@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import models, { sequelize } from '../models/index.js';
 import sha256 from 'js-sha256';
 import { confirmPayment } from './property.js';
-import { sendMail } from '../utilities/functions.js';
+import { sendMail, sendOtp } from '../utilities/functions.js';
 
 const addCohost = async (req, res) => {
     // generates n pin initializers to be used in a Model.create() method
@@ -114,6 +114,8 @@ const updateDetails = (req, res) => {
         }).then(user => {
             const otp = user.inactive;
             user.inactive = undefined; // remove from object
+            sendOtp('+234' + req.body.phoneNumber, otp);
+
             res.status(200)
                 .json({
                     data: sha256(otp.toString()),
