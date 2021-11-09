@@ -51,11 +51,10 @@ export const sendOtp = (mobileNumber, otp) => {
     };
 
     // Create promise and SNS service object
-    let setSMSTypePromise = new AWS.SNS({ apiVersion: '2010-03-31' })
-        .setSMSAttributes(attr).publish(params).promise();
+    let sns = new AWS.SNS({ apiVersion: '2010-03-31' });
+    sns.setSMSAttributes(attr);
 
-    // Handle promise's fulfilled/rejected states
-    setSMSTypePromise.then(message => {
+    sns.publish(params).promise().then(message => {
         console.log(message)
         console.log("OTP SEND SUCCESS");
     })
