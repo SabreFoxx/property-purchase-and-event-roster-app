@@ -4,24 +4,24 @@ AWS.config.update({ region: 'eu-west-3' });
 import env from 'dotenv';
 env.config();
 
+// create reusable transporter object using the default SMTP transport
+const mailTransporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+        user: process.env.NODEMAILER_EMAIL_ACCOUNT,
+        pass: process.env.NODEMAILER_EMAIL_PASSWORD
+    },
+});
+
 export const uniqueId = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
 export const sendMail = (referenceId, name) => {
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-            user: process.env.NODEMAILER_EMAIL_ACCOUNT,
-            pass: process.env.NODEMAILER_EMAIL_PASSWORD
-        },
-    });
-
     // send mail with defined transport object
-    return transporter.sendMail({
+    return mailTransporter.sendMail({
         from: `"${name}" <bonitasmailer@gmail.com>`, // sender address
         to: "gerald.nnebe@bonitasict.com, gerald.nnebe@bonitasict.com", // list of receivers
         subject: `${Date.now()} GVE Groundbreaking app offline payment receipt/`, // Subject line
@@ -35,7 +35,7 @@ export const sendMail = (referenceId, name) => {
     }).catch(e => console.log(e));
 };
 
-export const sendOtp = (mobileNumber, otp) => {
+export const sendOtp = (email, mobileNumber, otp) => {
     // Create SMS Attribute parameters
     var attr = {
         attributes: {
@@ -43,7 +43,6 @@ export const sendOtp = (mobileNumber, otp) => {
             //'DefaultSMSType': 'Promotional' /* lowest cost */
         }
     };
-
     var params = {
         Message: "Welcome! your mobile verification code is: "
             + otp + " Mobile Number is:" + mobileNumber,
@@ -62,4 +61,12 @@ export const sendOtp = (mobileNumber, otp) => {
             console.log("Error " + err)
             return err;
         });
+
+    // also send OTP through mail
+    return mailTransporter.sendMail({
+        from: `"GVE App" <bonitasmailer@gmail.com>`, // sender address
+        to: `${email}, ${email}`, // list of receivers
+        subject: `GVE Groundbreaking app OTP`,
+        html: `<p>Your OTP is<p><b>${otp}</b></p>`,
+    }).catch(e => console.log(e));
 }

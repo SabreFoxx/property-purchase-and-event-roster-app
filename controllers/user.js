@@ -114,7 +114,7 @@ const updateDetails = (req, res) => {
         }).then(user => {
             const otp = user.inactive;
             user.inactive = undefined; // remove from object
-            sendOtp('+234' + req.body.phoneNumber, otp);
+            sendOtp(user.email, '+234' + req.body.phoneNumber, otp);
 
             res.status(200)
                 .json({
