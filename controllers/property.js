@@ -1,13 +1,20 @@
 import models, { sequelize } from '../models/index.js';
 import { uniqueId } from '../utilities/functions.js';
+import { sendMail } from '../utilities/functions.js';
 import paystackLib from 'paystack';
 import crypto from 'crypto';
 import env from 'dotenv';
 env.config();
 
-// TODO hide taken properties
-export const fetchProperty = (req, res) => {
-    models.PropertyCategory.findAll({ include: models.Property }, { raw: true, nest: true })
+export const fetchProperty = async (req, res) => {
+    // wait! let's do some routine checks first...
+    // ...it's a CRON like job to make visible, hidden properties that are
+    // due to be visible
+    await sequelize.query(
+        `UPDATE "Property" SET "isHiddenTill" = null WHERE "isHiddenTill" <= NOW()`);
+
+    // Proceed with what this function is intended to do
+    models.PropertyCategory.scope('visibleProperties').findAll()
         .then(properties => {
             res.status(200)
                 .json({ data: properties, message: "Success" })
@@ -86,6 +93,39 @@ export const initiatePayment = (req, res) => {
         console.log(err);
         res.status(204)
             .json({ message: "No property matches supplied id" });
+    });
+}
+
+export const uploadPaymentDocument = (req, res) => {
+    models.Sale.findOne({
+        where: { paymentReference: req.body.referenceId },
+        include: models.Property
+    }).then(async sale => {
+        sale.paymentProvider = "offline";
+        await sale.save();
+
+        // exit if our payment confirmation didn't succeed
+        if (await !confirmPayment(sale))
+            return res.status(400)
+                .json({ message: "Document submit failed" });
+
+        // The properties of uploaded payments should be removed from the list of properties
+        // for 24 hours, to allow the admin verify the payment
+        const property = await sale.getProperty();
+        let then = new Date();
+        then.setDate(then.getDate() + 1); // plus one day
+        property.isHiddenTill = then.toDateString();
+        await property.save();
+
+        sendMail(req.body.referenceId, req.body.name, req.body.base64Document)
+            .then(() => {
+                res.status(200)
+                    .json({ message: "Document submitted successfully" });
+            })
+    }).catch(err => {
+        console.log(err);
+        res.status(400)
+            .json({ message: "No payment reference found" });
     });
 }
 

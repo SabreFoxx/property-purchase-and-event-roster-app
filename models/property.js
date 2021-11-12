@@ -14,9 +14,18 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Property.belongsTo(models.PropertyCategory);
+      Property.addScope('visibleProperty', {
+        where: { isHiddenTill: null },
+        attributes: { exclude: ['isHiddenTill'] }
+      });
+      models.PropertyCategory.addScope('visibleProperties', {
+        include: [{ model: models.Property.scope('visibleProperty') }]
+      });
+
       Property.hasMany(models.Sale);
     }
   };
+
   Property.init({
     plotId: DataTypes.STRING,
     size: DataTypes.INTEGER,

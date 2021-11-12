@@ -30,7 +30,6 @@ import {
     getUserSeat,
     setUserSeat,
     paymentHistory as userPaymentHistory,
-    uploadPaymentDocument,
     successfulPayments as paymentNotification
 } from '../controllers/user.js';
 import {
@@ -53,6 +52,7 @@ import {
     addProperty,
     addPropertyCategory,
     initiatePayment,
+    uploadPaymentDocument,
     verifyPayment,
     verifyOfflinePayment,
     paystackWebhook

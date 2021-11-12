@@ -1,8 +1,7 @@
 import Sequelize from 'sequelize';
 import models, { sequelize } from '../models/index.js';
 import sha256 from 'js-sha256';
-import { confirmPayment } from './property.js';
-import { sendMail, sendOtp } from '../utilities/functions.js';
+import { sendOtp } from '../utilities/functions.js';
 
 const addCohost = async (req, res) => {
     // generates n pin initializers to be used in a Model.create() method
@@ -296,35 +295,6 @@ const successfulPayments = async (req, res) => {
         .json({ data, message: "Success" });
 }
 
-const uploadPaymentDocument = (req, res) => {
-    models.Sale.findOne({
-        where: { paymentReference: req.body.referenceId },
-        include: models.Property
-    }).then(async sale => {
-        sale.paymentProvider = "offline";
-        await sale.save();
-
-        // exit if our payment confirmation didn't succeed
-        if (await !confirmPayment(sale))
-            return res.status(400)
-                .json({ message: "Document submit failed" });
-
-        // TODO send document to admin's email
-        const document = {
-            name: req.body.name,
-            image: req.body.base64Document
-        }
-        sendMail(req.body.referenceId, req.body.name, req.body.base64Document)
-            .then(() => {
-                res.status(200)
-                    .json({ message: "Document submitted successfully" });
-            })
-    }).catch(() => {
-        res.status(400)
-            .json({ message: "No payment reference found" });
-    });
-}
-
 export {
     addCohost,
     inviteGuest,
@@ -335,6 +305,5 @@ export {
     setUserSeat,
     getUserSeat,
     paymentHistory,
-    uploadPaymentDocument,
     successfulPayments
 }
