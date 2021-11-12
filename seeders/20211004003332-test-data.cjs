@@ -391,6 +391,7 @@ module.exports = {
       await queryInterface.sequelize
         // if you don't update this with the last seeded value of Pin in this file,
         // we'd have problems with the unique constraint of Pin
+        // see 1127 in pin.js
         .query('ALTER SEQUENCE "Pin_pin_seq" RESTART WITH 1127', { raw: true });
   },
 

@@ -22,25 +22,22 @@ module.exports = {
         onDelete: 'SET NULL',
         allowNull: true
       }
+    );
+    
+    // Pin.belongsTo(models.Cohost);
+    await queryInterface.addColumn(
+      'Pin',
+      'CohostId',
+      {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Cohost',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      }
     )
-      // Pin.belongsTo(models.Cohost);
-      .then(() => {
-        return queryInterface.addColumn(
-          'Pin',
-          'CohostId',
-          {
-            type: Sequelize.INTEGER,
-            allowNull: true,
-            references: {
-              model: 'Cohost',
-              key: 'id'
-            },
-            onUpdate: 'CASCADE',
-            onDelete: 'SET NULL',
-            allowNull: false
-          }
-        )
-      })
   },
 
   down: async (queryInterface, Sequelize) => {

@@ -15,12 +15,12 @@
     "express-jwt": "^6.1.0",
     "js-sha256": "^0.9.0",
     "jsonwebtoken": "^8.5.1",
+    "mariadb": "^2.5.5",
     "morgan": "~1.9.1",
     "nodemailer": "^6.7.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "paystack": "^2.0.1",
-    "pg": "^8.7.1",
     "sequelize": "^6.6.5",
     "serverless-http": "^2.7.0"
   }

@@ -33,7 +33,8 @@ export default (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Pin',
     // set initial auto increment value for MySQL, doesn't work for Postgres
-    initialAutoIncrement: 1111
+    // see 1127 in seed file test-data.cjs
+    initialAutoIncrement: 1127
   });
   return Pin;
 };
