@@ -23,7 +23,8 @@ export default (sequelize, DataTypes) => {
     unit: DataTypes.STRING,
     price: DataTypes.INTEGER,
     thumbnailUrl: DataTypes.STRING,
-    isTaken: DataTypes.BOOLEAN
+    isTaken: DataTypes.BOOLEAN,
+    isHiddenTill: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Property',

@@ -29,6 +29,9 @@ module.exports = {
         defaultValue: false,
         allowNull: false
       },
+      isHiddenTill: {
+        type: Sequelize.DATE
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

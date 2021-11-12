@@ -9,12 +9,6 @@ env.config();
 export const fetchProperty = (req, res) => {
     models.PropertyCategory.findAll({ include: models.Property }, { raw: true, nest: true })
         .then(properties => {
-            properties.forEach(propertyCategory => {
-                let p = JSON.parse(JSON.stringify(propertyCategory))
-                propertyCategory.Properties = p.Properties.filter(property => {
-                    return property.isTaken == false
-                })
-            })
             res.status(200)
                 .json({ data: properties, message: "Success" })
         });
