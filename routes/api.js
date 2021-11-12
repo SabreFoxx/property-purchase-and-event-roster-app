@@ -30,7 +30,7 @@ import {
     getUserSeat,
     setUserSeat,
     paymentHistory as userPaymentHistory,
-    submitPaymentDocument,
+    uploadPaymentDocument,
     successfulPayments as paymentNotification
 } from '../controllers/user.js';
 import {
@@ -99,7 +99,7 @@ router.route('/user/payment/notification')
     .get(auth, paymentNotification)
     .all(methodNotAllowed);
 router.route('/user/document')
-    .post(auth, submitPaymentDocument)
+    .post(auth, uploadPaymentDocument)
     .all(methodNotAllowed);
 
 router.get('/dashboard', fetchDashboard);

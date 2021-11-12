@@ -296,7 +296,7 @@ const successfulPayments = async (req, res) => {
         .json({ data, message: "Success" });
 }
 
-const submitPaymentDocument = (req, res) => {
+const uploadPaymentDocument = (req, res) => {
     models.Sale.findOne({
         where: { paymentReference: req.body.referenceId },
         include: models.Property
@@ -314,7 +314,7 @@ const submitPaymentDocument = (req, res) => {
             name: req.body.name,
             image: req.body.base64Document
         }
-        sendMail(req.body.referenceId, req.body.name)
+        sendMail(req.body.referenceId, req.body.name, req.body.base64Document)
             .then(() => {
                 res.status(200)
                     .json({ message: "Document submitted successfully" });
@@ -335,6 +335,6 @@ export {
     setUserSeat,
     getUserSeat,
     paymentHistory,
-    submitPaymentDocument,
+    uploadPaymentDocument,
     successfulPayments
 }
