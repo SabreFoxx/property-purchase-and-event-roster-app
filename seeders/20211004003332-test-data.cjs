@@ -118,15 +118,14 @@ module.exports = {
       {
         name: 'Vivian Chinaza',
         titles: 'Lady.',
-        bio: `
-          Vivian Chinaza is the founder and chief executive officer of Bonitas Property.
-          From a small office in her one-room apartment, she led her company to the 
-          limelight in just two years with over 6 billion dollars in sales and acquisition 
-          of land property. Her outstanding leadership method and strategies in the affairs 
-          of her company has made them the pace-setters in the real estate industry.
-          She is the author of two New York Times best-selling books; The Secrets of Real 
-          Estate and How I made $6 billion in 2 years.
-          She is an alumna of Nnamdi Azikiwe University Awka where she studied Journalism.`,
+        bio: 'Vivian Chinaza is the founder and chief executive officer of Bonitas Property. ' +
+          'From a small office in her one-room apartment, she led her company to the ' +
+          'limelight in just two years with over 6 billion dollars in sales and acquisition ' +
+          'of land property. Her outstanding leadership method and strategies in the affairs ' +
+          'of her company has made them the pace-setters in the real estate industry. ' +
+          'She is the author of two New York Times best-selling books; The Secrets of Real ' +
+          'Estate and How I made $6 billion in 2 years. ' +
+          'She is an alumna of Nnamdi Azikiwe University Awka where she studied Journalism.',
         thumbnailUrl: '/images/vivian.png',
         createdAt: new Date(),
         updatedAt: new Date()
@@ -150,11 +149,10 @@ module.exports = {
       {
         name: 'Nnamdi Azikiwe',
         titles: 'Presdo. Dr.',
-        bio: `
-          Nnamdi Benjamin Azikiwe, usually referred to as "Zik", was a Nigerian 
-          statesman and political leader who served as the first President of Nigeria 
-          from 1963 to 1966. Considered a driving force behind the nation's 
-          independence, he came to be known as the "father of Nigerian Nationalism"`,
+        bio: 'Nnamdi Benjamin Azikiwe, usually referred to as "Zik", was a Nigerian ' +
+          'statesman and political leader who served as the first President of Nigeria ' +
+          'from 1963 to 1966. Considered a driving force behind the nation\'s ' +
+          'independence, he came to be known as the "father of Nigerian Nationalism"',
         thumbnailUrl: '/images/nnamdi.png',
         createdAt: new Date(),
         updatedAt: new Date()

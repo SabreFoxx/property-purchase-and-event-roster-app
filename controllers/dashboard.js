@@ -10,9 +10,8 @@ const fetchDashboard = (req, res) => {
                         id: 1,
                         title: "Opening prayer",
                         speaker: {
-                            name: `
-                                The event will begin with the opening prayer said by 
-                                Nnamdi Azikiwe`,
+                            name: 'The event will begin with the opening prayer said by ' +
+                                'Nnamdi Azikiwe',
                             thumbnailUrl: "/images/nnamdi.png"
                         },
                         startTimestamp: 1639985400,
@@ -22,9 +21,8 @@ const fetchDashboard = (req, res) => {
                         id: 2,
                         title: "National anthem",
                         speaker: {
-                            name: `
-                                The talented artist Phyno will lead us as we take the 
-                                National Anthem`,
+                            name: 'The talented artist Phyno will lead us as we take the ' +
+                                'National Anthem',
                             thumbnailUrl: "/images/phyno.png"
                         },
                         startTimestamp: 1639986300,
@@ -34,9 +32,8 @@ const fetchDashboard = (req, res) => {
                         id: 3,
                         title: "HSE remarks",
                         speaker: {
-                            name: `
-                                The HSE remark will be taken by the Chief HSE Officer for Green 
-                                Valley Estate, Mr Bede`,
+                            name: 'The HSE remark will be taken by the Chief HSE Officer for ' +
+                                'Green Valley Estate, Mr Bede',
                             thumbnailUrl: "/images/bede.png"
                         },
                         startTimestamp: 1639987200,
@@ -46,9 +43,8 @@ const fetchDashboard = (req, res) => {
                         id: 4,
                         title: "Breaking of kolanut",
                         speaker: {
-                            name: `
-                                The Igwe of Smart kingdom, HRH. Igwe Green Valley Estate 1 
-                                of Awka will break the Kolanut`,
+                            name: 'The Igwe of Smart kingdom, HRH. Igwe Green Valley Estate 1 ' +
+                                'of Awka will break the Kolanut',
                             thumbnailUrl: "/images/avatar.png"
                         },
                         startTimestamp: 1639990800,
@@ -58,9 +54,8 @@ const fetchDashboard = (req, res) => {
                         id: 5,
                         title: "Closing prayer",
                         speaker: {
-                            name: `
-                                The event will come to an end with the final prayer by 
-                                Native Doctor Etel`,
+                            name: 'The event will come to an end with the final prayer by ' +
+                                'Native Doctor Etel',
                             thumbnailUrl: "/images/etel.png"
                         },
                         startTimestamp: 1639992600,
