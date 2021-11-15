@@ -14,20 +14,18 @@ module.exports = {
     await queryInterface.bulkInsert('PropertyCategory', [
       {
         categoryName: 'Detached Plots',
-        description: 'This plot of land is situated at the heart of GVE.'
-          + 'It features a very comfortable view and fresh wind.',
+        description: 'The allotted plots below are zoned for single-family residences.',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        categoryName: 'Terrace',
-        description: 'This plot of land is situated at the heart of GVE.'
-          + 'It features a very comfortable view and fresh wind.',
+        categoryName: 'Semi-Detached Plots',
+        description: 'The allotted plots below are zoned for semi-detached buildings.',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        categoryName: 'Luxury',
+        categoryName: 'Luxury Plots',
         description: 'This plot of land is situated at the heart of GVE.'
           + 'It features a very comfortable view and fresh wind.',
         createdAt: new Date(),
@@ -41,7 +39,7 @@ module.exports = {
         price: 400000,
         unit: "sqm",
         plotId: "Plot567",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -52,7 +50,7 @@ module.exports = {
         price: 500000,
         unit: "sqm",
         plotId: "Plot568",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -63,7 +61,7 @@ module.exports = {
         price: 457300,
         unit: "sqm",
         plotId: "Plot569",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -74,7 +72,7 @@ module.exports = {
         price: 566000,
         unit: "sqm",
         plotId: "Plot570",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -85,7 +83,7 @@ module.exports = {
         price: 880000,
         unit: "sqm",
         plotId: "Plot571",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -96,7 +94,7 @@ module.exports = {
         price: 354800,
         unit: "sqm",
         plotId: "Plot572",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -107,7 +105,7 @@ module.exports = {
         price: 872000,
         unit: "sqm",
         plotId: "Plot573",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -118,7 +116,7 @@ module.exports = {
         price: 3400000,
         unit: "sqm",
         plotId: "Plot574",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -129,7 +127,7 @@ module.exports = {
         price: 6433000,
         unit: "sqm",
         plotId: "Plot575",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -140,7 +138,7 @@ module.exports = {
         price: 200000000,
         unit: "sqm",
         plotId: "Plot576",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -151,7 +149,7 @@ module.exports = {
         price: 450000000,
         unit: "sqm",
         plotId: "Plot577",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -162,7 +160,7 @@ module.exports = {
         price: 76400000,
         unit: "sqm",
         plotId: "Plot578",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -173,7 +171,7 @@ module.exports = {
         price: 58430000,
         unit: "sqm",
         plotId: "Plot579",
-        thumbnailUrl: "/images/land.jpeg",
+        thumbnailUrl: `/images/land/${getRandomInt(1, 9)}.jpeg`,
         isTaken: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -238,3 +236,9 @@ module.exports = {
      */
   }
 };
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}

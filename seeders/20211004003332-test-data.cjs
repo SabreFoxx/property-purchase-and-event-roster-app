@@ -116,34 +116,46 @@ module.exports = {
 
     await queryInterface.bulkInsert('Speaker', [
       {
-        name: 'Dorothy Carnwill',
-        titles: 'Chief. Lady. Mrs.',
-        bio: 'She is a well deserved woman who loves to speak to the public',
-        thumbnailUrl: '/images/speakers/1.jpg',
+        name: 'Vivian Chinaza',
+        titles: 'Lady.',
+        bio: `
+          Vivian Chinaza is the founder and chief executive officer of Bonitas Property.
+          From a small office in her one-room apartment, she led her company to the 
+          limelight in just two years with over 6 billion dollars in sales and acquisition 
+          of land property. Her outstanding leadership method and strategies in the affairs 
+          of her company has made them the pace-setters in the real estate industry.
+          She is the author of two New York Times best-selling books; The Secrets of Real 
+          Estate and How I made $6 billion in 2 years.
+          She is an alumna of Nnamdi Azikiwe University Awka where she studied Journalism.`,
+        thumbnailUrl: '/images/vivian.png',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Luke Skyhaven',
-        titles: 'Chief. Barr. Mr.',
-        bio: 'He is a well deserved man who loves to speak to the public',
-        thumbnailUrl: '/images/speakers/2.jpg',
+        name: 'Bede Nwamuo',
+        titles: 'Chief. Dr. Mr.',
+        bio: 'He is a well deserved man who loves to speak in the public',
+        thumbnailUrl: '/images/bede.png',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Kelvin Hart',
-        titles: 'Lord. Prof. Mr.',
+        name: 'Eterhime Eyekpegha',
+        titles: 'Oje Na Muo. Prof. Dr.',
         bio: 'He is a well deserved man who loves to speak to the public',
-        thumbnailUrl: '/images/speakers/3.jpg',
+        thumbnailUrl: '/images/etel.png',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Dwain Johnson',
-        titles: 'Lord. Prof. Mr.',
-        bio: 'He is a well deserved man who loves to speak to the public',
-        thumbnailUrl: '/images/speakers/4.jpg',
+        name: 'Nnamdi Azikiwe',
+        titles: 'Presdo. Dr.',
+        bio: `
+          Nnamdi Benjamin Azikiwe, usually referred to as "Zik", was a Nigerian 
+          statesman and political leader who served as the first President of Nigeria 
+          from 1963 to 1966. Considered a driving force behind the nation's 
+          independence, he came to be known as the "father of Nigerian Nationalism"`,
+        thumbnailUrl: '/images/nnamdi.png',
         createdAt: new Date(),
         updatedAt: new Date()
       },
