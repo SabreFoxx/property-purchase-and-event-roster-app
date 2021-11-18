@@ -123,8 +123,8 @@ module.exports = {
           'limelight in just two years with over 6 billion dollars in sales and acquisition ' +
           'of land property. Her outstanding leadership method and strategies in the affairs ' +
           'of her company has made them the pace-setters in the real estate industry. ' +
-          'She is the author of two New York Times best-selling books; The Secrets of Real ' +
-          'Estate and How I made $6 billion in 2 years. ' +
+          'She is the author of two New York Times best-selling books: The Secrets of Real ' +
+          'Estate and How I made $6 billion in 2 years. \n' +
           'She is an alumna of Nnamdi Azikiwe University Awka where she studied Journalism.',
         thumbnailUrl: '/images/vivian.png',
         createdAt: new Date(),

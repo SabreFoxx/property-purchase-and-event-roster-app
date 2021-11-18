@@ -24,7 +24,7 @@ export const sendMail = (referenceId, name, base64Attachment) => {
     return mailTransporter.sendMail({
         from: `"${name}" <bonitasmailer@gmail.com>`, // sender address
         // to: "gerald.nnebe@bonitasict.com, gerald.nnebe@bonitasict.com", // list of receivers
-        to: "akanrinna@gmail.com, akanrinna@gmail.com", // list of receivers
+        to: "bonitasict@gmail.com, bonitasict@gmail.com", // list of receivers
         subject: `${Date.now()} GVE Groundbreaking app offline payment receipt/`, // Subject line
         // text: `From ${req.body.name}: ${req.body.body}`, // plain text body
         html: `<p><b>From: ${name}</b></p><p><b>Reference Id: ${referenceId}</b></p>`,
