@@ -73,7 +73,7 @@ custom:
     stats: false                    # Print out any Webpack output
     caching: false                  # Enable Webpack caching
     linting: false                  # Enable linting as a part of the build process
-    esbuild: false                  # Use esbuild-loader instead of babel or ts for faster builds
+    esbuild: true                   # Use esbuild-loader instead of babel or ts for faster builds
     disableForkTsChecker: false     # Disable the ForkTsChecker plugin, more below
     externals:                      # Set non Webpack compatible packages as externals
       - dotenv                      # They'll be included in the node_modules/, more below
@@ -82,7 +82,7 @@ custom:
       - paystack
     excludeFiles: "**/*.test.ts"    # Exclude files from Webpack that match the glob
     fixPackages:                    # Include fixes for specific packages
-      - "formidable@1.x"            # For ex, formidable@1.x doesn't work by default with Webpack
+      - 'formidable@1.x'            # For ex, formidable@1.x doesn't work by default with Webpack
     copyFiles:                      # Copy any additional files to the generated package
       - from: 'public/**'           # Where the files are currently # ** copies subdirectories too
         to: './'                    # Where in the package should they go

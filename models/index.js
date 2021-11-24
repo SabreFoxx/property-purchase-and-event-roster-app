@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
 import env from 'dotenv';
-import pg from "pg"; // see below for purpose
+import pg from 'pg'; // see below for purpose
 env.config();
 
 import { fileURLToPath } from 'url';
@@ -33,7 +33,7 @@ const isLambda = !!process.env.LAMBDA_TASK_ROOT;
 // serverless-bundle copies my models to the root directory after bundling
 const modelsDirectory = isLambda ? './' : './models/';
 
-let modelFiles = fs.readdirSync(modelsDirectory)
+const modelFiles = fs.readdirSync(modelsDirectory)
   .filter(file => {
     return (file.indexOf('.') !== 0)
       // in case we're in lambda, and since all js files are
@@ -43,27 +43,29 @@ let modelFiles = fs.readdirSync(modelsDirectory)
   });
 
 console.log('...loading models...')
-let iterations = 0;
-modelFiles.forEach(async file => {
+console.log(modelFiles);
+let count = 0;
+for (let file of modelFiles) {
   try {
     // remove .js extension if we're in lambda since we're using webpack
     // and require() doesn't need the extension
     // append with ./ if we're using es6 dynamic import
     file = isLambda ? file.slice(0, -3) : `./${file}`;
-    let fetchedModule = await import(file);
-    const model = fetchedModule.default(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-    ++iterations;
+    import(file).then(fetchedModule => {
+      const model = fetchedModule.default(sequelize, Sequelize.DataTypes);
+      db[model.name] = model;
+      console.log(`...loaded model ${model.name}...`);
+      ++count;
+    })
   } catch (err) { console.log(err) }
 
-  if (iterations == modelFiles.length)
+  if (count == modelFiles.length)
     // Call the associate() static method for models
     Object.keys(db).forEach(modelName => {
       if (db[modelName].associate) {
         db[modelName].associate(db);
       }
     });
-});
-console.log('...done loading models...');
+}
 
 export { db as default, sequelize };

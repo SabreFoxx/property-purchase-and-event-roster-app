@@ -11,17 +11,18 @@ const environment = process.env.NODE_ENV || 'development'; // defaults to develo
 import { sequelize } from './models/index.js';
 // synchronize sequelize with database
 (async () => {
-    // do not destructively alter the database during prodction
-    if (environment == 'production') {
-        console.log('...running in production mode...');
-        return await sequelize.sync(); // doesn't alter the database
-    } else {
-        console.log(`...running in ${environment} mode...`);
-        return await sequelize.sync({ alter: true });
-    }
-})()
-    .then(() => console.log('...sequelize loaded, database synced.'))
-    .catch(err => console.log(err));
+    try {
+        // do not destructively alter the database during prodction
+        if (environment == 'production') {
+            console.log('...running in production mode...');
+            await sequelize.sync(); // doesn't alter the database
+        } else {
+            console.log(`...running in ${environment} mode...`);
+            await sequelize.sync({ alter: true });
+        }
+        console.log('...sequelize loaded, database synced.');
+    } catch (e) { console.log(e) }
+})();
 /* end sequelize and database initialization */
 
 // configure passport. We'll later initialize it in this app.js
