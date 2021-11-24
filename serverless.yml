@@ -76,7 +76,9 @@ custom:
     esbuild: false                  # Use esbuild-loader instead of babel or ts for faster builds
     disableForkTsChecker: false     # Disable the ForkTsChecker plugin, more below
     externals:                      # Set non Webpack compatible packages as externals
-      - sequelize                      # They'll be included in the node_modules/, more below
+      - dotenv                      # They'll be included in the node_modules/, more below
+      - js-sha256
+      - jsonwebtoken
       - paystack
     excludeFiles: "**/*.test.ts"    # Exclude files from Webpack that match the glob
     fixPackages:                    # Include fixes for specific packages

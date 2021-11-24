@@ -41,6 +41,8 @@ let modelFiles = fs.readdirSync(modelsDirectory)
       && (file !== basename && file !== 'app.js')
       && (file.slice(-3) === '.js');
   });
+
+console.log('...loading models...')
 let iterations = 0;
 modelFiles.forEach(async file => {
   try {
@@ -51,7 +53,6 @@ modelFiles.forEach(async file => {
     let fetchedModule = await import(file);
     const model = fetchedModule.default(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
-    console.log(model.name)
     ++iterations;
   } catch (err) { console.log(err) }
 
@@ -63,5 +64,6 @@ modelFiles.forEach(async file => {
       }
     });
 });
+console.log('...done loading models...');
 
 export { db as default, sequelize };
