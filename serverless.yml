@@ -71,14 +71,13 @@ custom:
   bundle:
     sourcemaps: false               # Disable source maps
     stats: false                    # Print out any Webpack output
-    caching: false                  # Enable Webpack caching
+    caching: true                   # Enable Webpack caching
     linting: false                  # Enable linting as a part of the build process
-    esbuild: true                   # Use esbuild-loader instead of babel or ts for faster builds
+    esbuild: false                  # Use esbuild-loader instead of babel or ts for faster builds
     disableForkTsChecker: false     # Disable the ForkTsChecker plugin, more below
     externals:                      # Set non Webpack compatible packages as externals
       - dotenv                      # They'll be included in the node_modules/, more below
       - js-sha256
-      - jsonwebtoken
       - paystack
     excludeFiles: "**/*.test.ts"    # Exclude files from Webpack that match the glob
     fixPackages:                    # Include fixes for specific packages
@@ -90,6 +89,8 @@ custom:
         to: './'
       - from: './.env'
         to: './'
+    aliases:                        # Create an alias to 'import' modules easily with a custom path
+      - lib: './models/'            # For ex, replace the long 'custom-lib/src/lib' with 'Lib'
     ignorePackages:
       - pg-native
     packager: npm                   # Specify a packager, 'npm' or 'yarn'. Defaults to 'npm'.

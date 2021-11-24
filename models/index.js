@@ -20,9 +20,6 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
   // in my serverless.yml file after adding the below
-  // ignorePackages:
-  //   - pg-native
-  // I need to configure dialectModule
   config['dialectModule'] = pg; // to prevent an error when using the serverless framework
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
@@ -33,7 +30,7 @@ const isLambda = !!process.env.LAMBDA_TASK_ROOT;
 // serverless-bundle copies my models to the root directory after bundling
 const modelsDirectory = isLambda ? './' : './models/';
 
-const modelFiles = fs.readdirSync(modelsDirectory)
+let modelFiles = fs.readdirSync(modelsDirectory)
   .filter(file => {
     return (file.indexOf('.') !== 0)
       // in case we're in lambda, and since all js files are
@@ -42,15 +39,19 @@ const modelFiles = fs.readdirSync(modelsDirectory)
       && (file.slice(-3) === '.js');
   });
 
-console.log('...loading models...')
-console.log(modelFiles);
+// dummy call. Please ignore this block as it has no functional purpose
+try {
+  // the ./ below is necessary to make serverless-bundle leave my models as multiple files
+  const a = isLambda ? 'app' : 'app';
+  (async dummy => await import('./' + a))
+} catch (e) { }
+
 let count = 0;
-for (let file of modelFiles) {
+modelFiles.forEach(async file => {
   try {
     // remove .js extension if we're in lambda since we're using webpack
     // and require() doesn't need the extension
-    // append with ./ if we're using es6 dynamic import
-    file = isLambda ? file.slice(0, -3) : `./${file}`;
+    file = isLambda ? file : `./${file}`;
     import(file).then(fetchedModule => {
       const model = fetchedModule.default(sequelize, Sequelize.DataTypes);
       db[model.name] = model;
@@ -66,6 +67,6 @@ for (let file of modelFiles) {
         db[modelName].associate(db);
       }
     });
-}
+});
 
 export { db as default, sequelize };
