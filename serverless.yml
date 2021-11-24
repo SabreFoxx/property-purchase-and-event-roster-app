@@ -9,11 +9,11 @@ provider:
   region: eu-west-3
   stackName: gve-gbk-cloudfrm-sls-${sls:stage}
   apiName: gve-gbk-app-api-sls-${sls:stage}
-  timeout: 20
+  timeout: 25
       
   deploymentPrefix: serverless # The S3 prefix under which deployed artifacts should be stored. Default is serverless
   
-  architecture: arm64 # cost efficient
+  # architecture: arm64 # cost efficient
   
   endpointType: regional # Optional endpoint configuration for API Gateway REST API. Default is Edge.
   apiGateway: # Optional API Gateway global config
@@ -40,9 +40,15 @@ provider:
     # deploymentRole should be a CloudFormation service role that has access policies
     # to ApiGateway, CloudFormation and S3
   
-  vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
+  # Optional VPC. But if you use VPC then 
+  # both subproperties (securityGroupIds and subnetIds) are required
+  vpc:
+    # We don't need an sg exposing port 3000 since lambda
+    # doesn't even start the express server located at bin/www
+    # so one exposing 80 and 443 is used  
     securityGroupIds:
       - sg-0dd4ccea037173f31
+    # subnets make up a VPC. Required so we can have access to resources behind a VPC such as DBs
     subnetIds:
       - subnet-a8fa15c0
       - subnet-c63137bd
@@ -54,7 +60,40 @@ provider:
   tags: # Optional service wide function tags
     belongsTo: gve-groundbreaking-app
     developedBy: Gerald Nnebe
-  
+
+# npm install --save-dev serverless-bundle
+# we need this because AWS Lambda doesn't full support ES6
+plugins:
+  - serverless-bundle
+
+custom:
+  # for serverless-bundle
+  bundle:
+    sourcemaps: false               # Disable source maps
+    stats: false                    # Print out any Webpack output
+    caching: false                  # Enable Webpack caching
+    linting: false                  # Enable linting as a part of the build process
+    esbuild: false                  # Use esbuild-loader instead of babel or ts for faster builds
+    disableForkTsChecker: false     # Disable the ForkTsChecker plugin, more below
+    externals:                      # Set non Webpack compatible packages as externals
+      - sequelize                      # They'll be included in the node_modules/, more below
+      - paystack
+    excludeFiles: "**/*.test.ts"    # Exclude files from Webpack that match the glob
+    fixPackages:                    # Include fixes for specific packages
+      - "formidable@1.x"            # For ex, formidable@1.x doesn't work by default with Webpack
+    copyFiles:                      # Copy any additional files to the generated package
+      - from: 'public/**'           # Where the files are currently # ** copies subdirectories too
+        to: './'                    # Where in the package should they go
+      - from: 'config/*.json'
+        to: './'
+      - from: './.env'
+        to: './'
+    ignorePackages:
+      - pg-native
+    packager: npm                   # Specify a packager, 'npm' or 'yarn'. Defaults to 'npm'.
+    rawFileExtensions:              # An array of file extensions to import using the Webpack raw-loader.
+      - csv                         # Defaults to ['pem', 'txt']
+
 functions:
   app: # A Function
     handler: app.expressHandler # The file and module for this specific function. Cannot be used when `image` is defined.
@@ -64,3 +103,7 @@ functions:
       - http: ANY /
       - http: 'ANY {proxy+}'
     # onError: arn:aws:sns:us-east-1:XXXXXX:sns-topic # Optional SNS topic / SQS arn which will be used for the DeadLetterConfig
+
+# Create an individual package for our functions 
+package:
+  individually: true

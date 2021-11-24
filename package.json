@@ -7,7 +7,7 @@
   },
   "type": "module",
   "dependencies": {
-    "aws-sdk": "^2.1018.0",
+    "aws-sdk": "^2.1035.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",
@@ -15,14 +15,19 @@
     "express-jwt": "^6.1.0",
     "js-sha256": "^0.9.0",
     "jsonwebtoken": "^8.5.1",
-    "mariadb": "^2.5.5",
     "morgan": "~1.9.1",
     "nodemailer": "^6.7.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "paystack": "^2.0.1",
     "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "remove": "^0.1.5",
     "sequelize": "^6.6.5",
     "serverless-http": "^2.7.0"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "serverless-bundle": "^5.1.0"
   }
 }

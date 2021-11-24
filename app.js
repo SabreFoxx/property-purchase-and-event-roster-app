@@ -61,6 +61,6 @@ app.use((err, req, res, next) => {
 });
 
 const expressHandler = serverless(app);
-export { expressHandler as handler };
+export { expressHandler };
 
 export default app;
