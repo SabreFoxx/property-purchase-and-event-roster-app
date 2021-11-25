@@ -1,6 +1,6 @@
 import passport from 'passport';
 import passportLocal from 'passport-local';
-import models from '../models/index.js'
+import { models } from '../models/index.js'
 
 // configure passport for login use
 // control will later flow to this strategy, from our login api controller

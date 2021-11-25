@@ -16,7 +16,21 @@
     "password": "password",
     "database": "gve_groundbreaking_app-test",
     "host": "bonitasict-db.cluster-ckect1mjzcsh.eu-west-3.rds.amazonaws.com",
+    "port": 5432,
     "dialect": "postgres",
+    "dialectOptions": {
+      "requestTimeout": 100000,
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    },
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "idle": 20000,
+      "handleDisconnects": true
+    },
+    "language": "en",
     "define": {
       "freezeTableName": true,
       "charset": "utf8",

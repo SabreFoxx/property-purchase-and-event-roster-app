@@ -8,17 +8,18 @@ import serverless from 'serverless-http';
 /* init sequelize and load models */
 // process.env.NODE_ENV can be production or development
 const environment = process.env.NODE_ENV || 'development'; // defaults to development environment
-import { sequelize } from './models/index.js';
+import { sequelize, modelsLoader } from './models/index.js';
 // synchronize sequelize with database
 (async () => {
     try {
+        await modelsLoader();
         // do not destructively alter the database during prodction
         if (environment == 'production') {
             console.log('...running in production mode...');
             await sequelize.sync(); // doesn't alter the database
         } else {
             console.log(`...running in ${environment} mode...`);
-            await sequelize.sync({ alter: true });
+            await sequelize.sync({ alter: false }); // TODO change to true
         }
         console.log('...sequelize loaded, database synced.');
     } catch (e) { console.log(e) }

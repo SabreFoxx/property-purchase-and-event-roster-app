@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import models from '../models/index.js';
+import { models } from '../models/index.js';
 import passport from 'passport';
 
 const register = async (req, res) => {
@@ -19,7 +19,7 @@ const register = async (req, res) => {
             // don't send secrets
             user.password = user.passwordSalt = undefined;
             delete user.dataValues["id"];
-            
+
             const token = newUser.generateJwt();
             res.status(201)
                 .json({ token, data: user, message: "Account created successfully" });
@@ -51,7 +51,7 @@ const login = (req, res) => {
         if (user instanceof models.Admin) { // we've already logged in the user from config/passport.js
             token = user.generateJwt();
             const { email } = user.toJSON();
-            console.log(user.toJSON()); // TODO save in log file
+            console.log(user.toJSON());
             res.status(200)
                 .json({ token, data: { email }, message: "Login successful!" });
         } else {

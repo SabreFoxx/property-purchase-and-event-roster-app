@@ -36,6 +36,8 @@ provider:
     
   iam:
     role: arn:aws:iam::228535841440:role/bonitasict-lambda-role
+    # role should be a Lambda service role that has access policies to
+    # AmazonRDS, APIGateway, AWSLambdaVPCAccessExecutionRole and AWSLambda
     deploymentRole: arn:aws:iam::228535841440:role/bonitasict-deployment-role
     # deploymentRole should be a CloudFormation service role that has access policies
     # to ApiGateway, CloudFormation and S3
@@ -76,9 +78,7 @@ custom:
     esbuild: false                  # Use esbuild-loader instead of babel or ts for faster builds
     disableForkTsChecker: false     # Disable the ForkTsChecker plugin, more below
     externals:                      # Set non Webpack compatible packages as externals
-      - dotenv                      # They'll be included in the node_modules/, more below
-      - js-sha256
-      - paystack
+      - js-sha256                   # They'll be included in the node_modules/, more below
     excludeFiles: "**/*.test.ts"    # Exclude files from Webpack that match the glob
     fixPackages:                    # Include fixes for specific packages
       - 'formidable@1.x'            # For ex, formidable@1.x doesn't work by default with Webpack
