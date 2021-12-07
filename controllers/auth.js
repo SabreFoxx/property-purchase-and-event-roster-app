@@ -3,7 +3,7 @@ import { models } from '../models/index.js';
 import passport from 'passport';
 
 const register = async (req, res) => {
-    if (!req.body.email || !req.body.password)
+    if (!req.body?.email || !req.body?.password)
         return res.status(400)
             .json({ message: "'email' and 'password' are required" });
 
