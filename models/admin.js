@@ -32,7 +32,7 @@ export default (sequelize, DataTypes) => {
           return null;
         if (user.isPasswordValid(plainPassword)) return user;
         else return null;
-      }).catch(err => console.log(err));
+      }).catch(err => console.error(err));
     };
 
     /**

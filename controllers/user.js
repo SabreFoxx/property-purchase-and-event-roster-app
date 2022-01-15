@@ -45,7 +45,7 @@ const addCohost = async (req, res) => {
             })
     } catch (error) {
         await t.rollback();
-        console.log(error);
+        console.error(error);
         res.status(500)
             .json({ message: 'There was an error while creating the Cohost' });
     }
@@ -67,7 +67,7 @@ const inviteGuest = (req, res) => {
                     message: 'Guest added successfully'
                 })
         }).catch(error => {
-            console.log(error);
+            console.error(error);
             res.status(500)
                 .json({
                     message: 'Error adding guest'
@@ -93,7 +93,7 @@ const submitPin = (req, res) => {
                     message: 'Pin correct'
                 })
         }).catch(error => {
-            console.log(error);
+            console.error(error);
             res.status(400)
                 .json({
                     message: 'Pin incorrect'
@@ -126,7 +126,7 @@ const updateDetails = (req, res) => {
                     }
                 })
         }).catch(error => {
-            console.log(error);
+            console.error(error);
             res.status(400)
                 .json({
                     message: 'Details update failed, invite not found'
@@ -162,7 +162,7 @@ const submitDetails = (req, res) => {
                 }
             })
     }).catch(error => {
-        console.log(error);
+        console.error(error);
         if (error instanceof Sequelize.UniqueConstraintError)
             return res.status(409)
                 .json({ message: 'Account already exists' });

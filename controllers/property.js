@@ -90,7 +90,7 @@ export const initiatePayment = (req, res) => {
                 message: "Success"
             });
     }).catch(err => {
-        console.log(err);
+        console.error(err);
         res.status(204)
             .json({ message: "No property matches supplied id" });
     });
@@ -123,7 +123,7 @@ export const uploadPaymentDocument = (req, res) => {
                     .json({ message: "Document submitted successfully" });
             })
     }).catch(err => {
-        console.log(err);
+        console.error(err);
         res.status(400)
             .json({ message: "No payment reference found" });
     });
@@ -213,7 +213,7 @@ export const webhookConfirmPayment = async (sale, extraData) => {
         return true;
     } catch (err) {
         await t.rollback();
-        console.log(err);
+        console.error(err);
         return false;
     }
 }
@@ -237,7 +237,7 @@ export const confirmPayment = async (sale) => {
         await t.commit();
     } catch (err) {
         await t.rollback();
-        console.log(err);
+        console.error(err);
         return false;
     }
 

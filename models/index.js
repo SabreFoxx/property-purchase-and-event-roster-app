@@ -44,7 +44,7 @@ async function localLoader() {
       const model = fetchedModule.default(sequelize, Sequelize.DataTypes);
       models[model.name] = model;
       ++count;
-    } catch (err) { console.log(err) }
+    } catch (err) { console.error(err) }
 
     if (count == modelFiles.length)
       associate(models);

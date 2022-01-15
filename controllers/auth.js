@@ -45,7 +45,7 @@ const login = (req, res) => {
     passport.authenticate('local', (err, user, info) => { // 'local' is strategy
         let token = null;
         if (err) { // passport returns an error
-            console.log(err);
+            console.error(err);
             return res.status(500).json({ message: "An unknown error occured while logging in" });
         }
         if (user instanceof models.Admin) { // we've already logged in the user from config/passport.js

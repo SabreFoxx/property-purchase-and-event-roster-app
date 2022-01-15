@@ -36,7 +36,7 @@ export const sendMail = (referenceId, name, base64Attachment) => {
         // console.log("Message sent: %s", info.messageId);
 
         // res.status(200).send('Message sent successfully');
-    }).catch(e => console.log(e));
+    }).catch(e => console.error(e));
 };
 
 export const sendOtp = (email, mobileNumber, otp) => {
@@ -62,7 +62,7 @@ export const sendOtp = (email, mobileNumber, otp) => {
         console.log("OTP SEND SUCCESS");
     })
         .catch(err => {
-            console.log("Error " + err)
+            console.error("Error " + err)
             return err;
         });
 
@@ -72,5 +72,5 @@ export const sendOtp = (email, mobileNumber, otp) => {
         to: `${email}, ${email}`, // list of receivers
         subject: `GVE Groundbreaking app OTP`,
         html: `<p>Your OTP is<p><b>${otp}</b></p>`,
-    }).catch(e => console.log(e));
+    }).catch(e => console.error(e));
 }
