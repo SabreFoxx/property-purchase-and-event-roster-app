@@ -38,6 +38,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: false }));
 app.use(cookieParser());
 const __dirname = path.resolve();
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize()); // we initialize passport now
 app.use('/api', (req, res, next) => { // setup CORS
@@ -62,7 +63,20 @@ app.use((err, req, res, next) => {
     }
 });
 
-const expressHandler = serverless(app);
+// set mime types serverless can return
+const binaryMimeTypes = {
+    binary: [
+        'image/*',
+        'image/jpeg',
+        'image/png',
+        'image/svg+xml',
+    ]
+};
+// IMPORTANT also set AWS ApiGateway mime types
+// to do this: ApiGateway -> API -> settings -> Binary Media Types
+// add those media types
+
+const expressHandler = serverless(app, binaryMimeTypes);
 export { expressHandler };
 
 export default app;
